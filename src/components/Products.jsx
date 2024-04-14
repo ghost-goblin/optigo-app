@@ -81,11 +81,6 @@ if (data) {
             ) : (
               <Link to={`/product/${item.node.handle}`}><Card.Img variant="top" src={item.node.featuredImage.src} /></Link>
             )}
-            <Card.Body>
-              <Card.Title>{item.node.title}</Card.Title>
-              <Card.Text>{item.node.variants.nodes[0].price.amount}</Card.Text>
-              <Button>Add to Cart</Button>
-            </Card.Body>
           </Card>
         </Col>
       ))}

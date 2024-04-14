@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Navigator from './NavBar.jsx';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
 import ErrorPage from "./ErrorPage.jsx";
+import CartCounter from "./CartCounter.jsx";
 import glasses from "../assets/glasses.svg";
 
 
@@ -63,21 +64,22 @@ const Product = () => {
     return (
       <div>
         <Navigator />
-        {data.images.nodes[0] == null ? (
-              <img src={glasses} />
-            ) : (
-              <img src={data.images.nodes[0].src} />
-        )}
-        <h1>{data.title}</h1>
-        <InputGroup size="lg">
-        <Button variant="outline-secondary" id="button-addon2">-</Button>
-        <Form.Control disabled placeholder="1" 
-                      aria-label="Cart Addon"
-                      aria-describedby="cart-addon"
-                       />
-        <Button variant="outline-secondary" id="button-addon2">+</Button>
-        </InputGroup>
-        <Button type="submit">Add to Cart</Button>
+        <Container>
+        <Row>
+          <Col>
+          {data.images.nodes[0] == null ? (
+                <img width="100%" src={glasses} />
+              ) : (
+                <img width="100%" src={data.images.nodes[0].src} />
+          )}
+          
+          </Col>
+          <Col>
+          <h1>{data.title}</h1>
+          <CartCounter />
+          </Col>
+        </Row>
+        </Container>
       </div>
     )} catch(e) {
       console.log(e)
