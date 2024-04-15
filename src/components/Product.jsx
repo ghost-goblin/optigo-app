@@ -9,13 +9,14 @@ import axios from 'axios';
 import ErrorPage from "./ErrorPage.jsx";
 import CartCounter from "./CartCounter.jsx";
 import glasses from "../assets/glasses.svg";
+import Button from 'react-bootstrap/Button';
 
 
 const Product = () => {
   const { handle } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const getProduct = async (handle) => {
+  const getProduct = (handle) => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -29,6 +30,8 @@ const Product = () => {
             id
             title
             handle
+            availableForSale
+            totalInventory
             images(first: 1) {
               nodes {
                 src
@@ -42,13 +45,15 @@ const Product = () => {
     axios.request(options)
       .then(function (response) {
         setData(response.data.data.product);
-        // console.log(response)
+        console.log(response)
       })
       .catch(function (error) {
         console.error(error);
       });      
   
   };
+
+
   
   useEffect(() => {
     getProduct(`${handle}`);
@@ -77,6 +82,7 @@ const Product = () => {
           <Col>
           <h1>{data.title}</h1>
           <CartCounter />
+          <Button type="submit">Add to Cart</Button>
           </Col>
         </Row>
         </Container>
@@ -88,9 +94,11 @@ const Product = () => {
     {loading === false ? (
     <ErrorPage />
       ) : (
+        <><Navigator />
         <Spinner animation="border" role="status">
        <span className="visually-hidden">Loading...</span>
         </Spinner>
+        </>
       )}
       </div>
 };

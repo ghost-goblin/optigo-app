@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -15,7 +14,7 @@ const Products = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   
-  const getProducts = async () => {
+  const getProducts = () => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -86,7 +85,6 @@ if (data) {
             <Card.Body>
               <Card.Title>{item.node.title}</Card.Title>
               <Card.Text>{item.node.variants.nodes[0].price.amount}</Card.Text>
-              <Button>Add to Cart</Button>
             </Card.Body>
           </Card>
         </Col>
@@ -101,9 +99,11 @@ if (data) {
  {loading === false ? (
  <ErrorPage />
    ) : (
+     <><Navigator />
      <Spinner animation="border" role="status">
     <span className="visually-hidden">Loading...</span>
      </Spinner>
+     </>
    )}
    </div>
 };

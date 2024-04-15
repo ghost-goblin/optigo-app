@@ -13,7 +13,6 @@ const CartCounter = () => {
                        />
         <Button variant="outline-secondary" id="button-addon2">+</Button>
         </InputGroup>
-        <Button type="submit">Add to Cart</Button>
     </div>
   );
 };

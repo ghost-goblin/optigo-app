@@ -8,13 +8,14 @@ import { Outlet, Link } from "react-router-dom";
 import Spinner from 'react-bootstrap/Spinner';
 import ErrorPage from "./ErrorPage.jsx";
 import glasses from "../assets/glasses.svg";
+import CartCounter from "./CartCounter.jsx";
 
 
 const Products = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   
-  const getProducts = async () => {
+  const getProducts = () => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,

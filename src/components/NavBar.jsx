@@ -3,11 +3,13 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Cart } from 'react-bootstrap-icons';
 import logo from '../assets/logo.png';
-
 import { Link } from "react-router-dom";
 
 
+
 const Navigator = () => {
+
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
