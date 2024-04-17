@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Navigator from './NavBar.jsx';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -10,12 +10,17 @@ import ErrorPage from "./ErrorPage.jsx";
 import CartCounter from "./CartCounter.jsx";
 import glasses from "../assets/glasses.svg";
 import Button from 'react-bootstrap/Button';
+import { useLocation } from 'react-router-dom';
 
 
 const Product = () => {
   const { handle } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const CartContext = createContext(null);
+  const location = useLocation();
+  const [cartId, setcartId] = useState(location.state);
+  
   const getProduct = (handle) => {
     const options = {
       method: 'POST',
@@ -27,7 +32,6 @@ const Product = () => {
       data: {
         query: `{
           product(handle: "${handle}") {
-            id
             title
             handle
             availableForSale
@@ -35,6 +39,13 @@ const Product = () => {
             images(first: 1) {
               nodes {
                 src
+              }
+            }
+            variants(first: 5) {
+              edges {
+                node {
+                  id
+                }
               }
             }
           }
@@ -54,7 +65,65 @@ const Product = () => {
   };
 
 
+const createCart = (merchandiseId) => {
+    const options = {
+      method: 'POST',
+      url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Storefront-Access-Token': `${process.env.REACT_APP_SHOPIFY_ACCESS_TOKEN}`,
+      },
+      data: {
+        query: `
+        mutation {
+          cartCreate(
+            input: {
+              lines: [
+                {
+                  quantity: 1
+                  merchandiseId: "${merchandiseId}"
+                }
+              ]
+              attributes: { key: "cart_attribute", value: "This is a cart attribute" }
+            }
+          ) {
+            cart {
+              id
+              createdAt
+              updatedAt
+              lines(first: 10) {
+                edges {
+                  node {
+                    id
+                    merchandise {
+                      ... on ProductVariant {
+                        id
+                      }
+                    }
+                  }
+                }
+              }    
+            }
+          }
+        }       
+        `
+      }
+    };
+    axios.request(options)
+      .then(function (response) {
+        setcartId(response.data.data.cartCreate.cart.id)
+        console.log(cartId+' Cart created!')
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.error(error);
+      });      
   
+  };
+
+  
+
+
   useEffect(() => {
     getProduct(`${handle}`);
   }, []);
@@ -64,11 +133,14 @@ const Product = () => {
   }, [])
 
 
+  
   if (data) {
     try {
     return (
       <div>
-        <Navigator />
+        <CartContext.Provider value={cartId}>
+        <Navigator value={cartId} />
+        </CartContext.Provider>
         <Container>
         <Row>
           <Col>
@@ -82,7 +154,7 @@ const Product = () => {
           <Col>
           <h1>{data.title}</h1>
           <CartCounter />
-          <Button type="submit">Add to Cart</Button>
+          <Button onClick={(event) => createCart("gid://shopify/ProductVariant/48129423180120", event)}>Add to Cart</Button>
           </Col>
         </Row>
         </Container>

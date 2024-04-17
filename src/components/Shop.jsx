@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -8,11 +7,16 @@ import Spinner from 'react-bootstrap/Spinner';
 import ErrorPage from "./ErrorPage.jsx";
 import glasses from "../assets/glasses.svg";
 import Navigator from './NavBar.jsx';
+import { useLocation } from 'react-router-dom';
+import { useEffect, createContext, useContext, useState } from "react";
 
 
 const Products = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const CartContext = createContext(null);
+  const location = useLocation();
+  console.log('wsfsfg '+location);
   
   const getProducts = () => {
     const options = {
@@ -72,15 +76,17 @@ if (data) {
   try {
   return (
     <div className="App">
-      <Navigator />
+       <CartContext.Provider value={location.state}>
+        <Navigator value={location.state} />
+        </CartContext.Provider>
      <Row xs={1} md={3} className="g-4">
           {data.edges.map((item) => (
         <Col key={item.node.id}>
           <Card>
             {item.node.featuredImage == null ? (
-              <Link to={`/product/${item.node.handle}`}><Card.Img variant="top" src={glasses} /></Link>
+              <Link to={`/product/${item.node.handle}` } state={location.state}><Card.Img variant="top" src={glasses} /></Link>
             ) : (
-              <Link to={`/product/${item.node.handle}`}><Card.Img variant="top" src={item.node.featuredImage.src} /></Link>
+              <Link to={`/product/${item.node.handle}`} state={location.state}><Card.Img variant="top" src={item.node.featuredImage.src} /></Link>
             )}
             <Card.Body>
               <Card.Title>{item.node.title}</Card.Title>

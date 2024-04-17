@@ -8,10 +8,10 @@ import { Outlet, Link } from "react-router-dom";
 import Spinner from 'react-bootstrap/Spinner';
 import ErrorPage from "./ErrorPage.jsx";
 import glasses from "../assets/glasses.svg";
-import CartCounter from "./CartCounter.jsx";
 
 
-const Products = () => {
+
+const Products = ({value}) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   
@@ -78,9 +78,9 @@ if (data) {
         <Col key={item.node.id}>
           <Card>
             {item.node.featuredImage == null ? (
-              <Link to={`/product/${item.node.handle}`}><Card.Img variant="top" src={glasses} /></Link>
+              <Link to={`/product/${item.node.handle}`} state={value}><Card.Img variant="top" src={glasses} /></Link>
             ) : (
-              <Link to={`/product/${item.node.handle}`}><Card.Img variant="top" src={item.node.featuredImage.src} /></Link>
+              <Link to={`/product/${item.node.handle}`} state={value}><Card.Img variant="top" src={item.node.featuredImage.src} /></Link>
             )}
           </Card>
         </Col>
