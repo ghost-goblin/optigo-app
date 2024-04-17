@@ -42,7 +42,7 @@ const Navigator = ({value}) => {
     axios.request(options)
       .then(function (response) {
         settotalItems(response.data.data.cart.totalQuantity)
-        setcartId(value)
+        console.log(response)
         console.log(cartId)
       })
       .catch(function (error) {

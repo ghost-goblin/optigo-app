@@ -16,7 +16,6 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const CartContext = createContext(null);
   const location = useLocation();
-  console.log('wsfsfg '+location);
   
   const getProducts = () => {
     const options = {
