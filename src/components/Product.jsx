@@ -224,9 +224,10 @@ const createCart = (merchandiseId,handle) => {
     {loading === false ? (
     <ErrorPage />
       ) : (
-        <><Navigator />
+        <>
+        <Navigator />
         <Spinner animation="border" role="status">
-       <span className="visually-hidden">Loading...</span>
+        <span className="visually-hidden">Loading...</span>
         </Spinner>
         </>
       )}

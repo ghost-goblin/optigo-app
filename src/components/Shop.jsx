@@ -16,6 +16,7 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const CartContext = createContext(null);
   const location = useLocation();
+
   
   const getProducts = () => {
     const options = {

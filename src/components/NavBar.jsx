@@ -72,7 +72,7 @@ const Navigator = ({value}) => {
       <Container>
       <CartContext.Provider value={cartId}>
         {cartId}
-        <Link to="/cart">
+        <Link to="/cart" state={cartId}>
       {totalItems == null ? (0) : (totalItems)}
         <Cart /></Link>
       {/* <Link to="/cart">{totalItems}<Cart /></Link> */}
