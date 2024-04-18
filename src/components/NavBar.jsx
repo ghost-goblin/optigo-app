@@ -43,8 +43,7 @@ const Navigator = ({value}) => {
                   }
                 }
               }
-        
-        `
+              `
       }
     };
     if (cartId) {
@@ -71,9 +70,8 @@ const Navigator = ({value}) => {
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
       <CartContext.Provider value={cartId}>
-        {cartId}
         <Link to="/cart" state={cartId}>
-      {totalItems == null ? (0) : (totalItems)}
+      {totalItems == null ? ('') : (totalItems)}
         <Cart /></Link>
       {/* <Link to="/cart">{totalItems}<Cart /></Link> */}
       <Link to="/" state={cartId}><Navbar.Brand><img src={logo} height="25px" alt="icon" />Optigo</Navbar.Brand></Link>    

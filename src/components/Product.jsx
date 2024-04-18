@@ -37,7 +37,7 @@ const Product = () => {
             handle
             availableForSale
             totalInventory
-            images(first: 1) {
+            images(first: 5) {
               nodes {
                 src
               }
@@ -54,6 +54,7 @@ const Product = () => {
         `
       }
     };
+
     axios.request(options)
       .then(function (response) {
         setData(response.data.data.product);
@@ -61,7 +62,7 @@ const Product = () => {
       })
       .catch(function (error) {
         console.error(error);
-      });      
+      });   
   
   };
 
@@ -119,7 +120,7 @@ const createCart = (merchandiseId,handle) => {
         })
         .catch(function (error) {
           console.error(error);
-        });    
+        });
     } else {
       console.log('Cart already created')
       cartLinesAdd(merchandiseId,handle)
@@ -171,7 +172,7 @@ const createCart = (merchandiseId,handle) => {
     if (cartId) {
       axios.request(options)
         .then(function (response) {
-        settotalItems(response.data.data.cartLinesAdd.cart.totalQuantity)
+          settotalItems(response.data.data.cartLinesAdd.cart.totalQuantity)
           console.log(response)
         })
         .catch(function (error) {
@@ -180,17 +181,13 @@ const createCart = (merchandiseId,handle) => {
     };
   };
 
-  
-
-
   useEffect(() => {
-    getProduct(`${handle}`);
-  }, []);
+    getProduct(handle);
+  }, [handle]);
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 5000)
   }, [])
-
 
   
   if (data) {
