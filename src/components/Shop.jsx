@@ -8,7 +8,7 @@ import ErrorPage from "./ErrorPage.jsx";
 import glasses from "../assets/glasses.svg";
 import Navigator from './NavBar.jsx';
 import { useLocation } from 'react-router-dom';
-import { useEffect, createContext, useContext, useState } from "react";
+import { useEffect, createContext, useState } from "react";
 
 
 const Products = () => {

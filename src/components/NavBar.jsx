@@ -63,7 +63,7 @@ const Navigator = ({value}) => {
 
   useEffect(() => {
     getCart(cartId);
-  }, []);
+  }, [cartId]);
 
 
   return (

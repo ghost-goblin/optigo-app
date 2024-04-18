@@ -9,6 +9,8 @@ import Product from './components/Product.jsx';
 import ErrorPage from "./components/ErrorPage.jsx";
 import Cart from './components/Cart.jsx';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import store from './app/store'
+import { Provider } from 'react-redux'
 
 
 const router = createBrowserRouter([
@@ -33,11 +35,13 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <Provider store={store}>
   <React.StrictMode>
     <RouterProvider router={router}>
     <App />
     </RouterProvider>
   </React.StrictMode>
+  </Provider>
 );
 
 reportWebVitals();
