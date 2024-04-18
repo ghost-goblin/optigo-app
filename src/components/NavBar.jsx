@@ -11,7 +11,7 @@ import axios from 'axios';
 
 const Navigator = ({value}) => {
   const [totalItems, settotalItems] = useState(null);
-  const [cartId, setcartId] = useState(value)
+  const [cartId] = useState(value)
   const CartContext = createContext(value);
 
 

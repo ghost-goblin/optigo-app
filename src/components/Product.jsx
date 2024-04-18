@@ -19,6 +19,8 @@ const Product = () => {
   const CartContext = createContext(null);
   const location = useLocation();
   const [cartId, setcartId] = useState(location.state);
+  const [totalItems, settotalItems] = useState(null);
+
   
   const getProduct = (handle) => {
     const options = {
@@ -96,6 +98,7 @@ const createCart = (merchandiseId,handle) => {
           ) {
             cart {
               id
+              totalQuantity
             }
             userErrors {
               field
@@ -110,6 +113,7 @@ const createCart = (merchandiseId,handle) => {
       axios.request(options)
         .then(function (response) {
           setcartId(response.data.data.cartCreate.cart.id)
+          settotalItems(response.data.data.cartCreate.cart.totalQuantity)
           console.log(response.data.data.cartCreate.cart.id+' Cart created!')
           console.log(response)
         })
@@ -117,7 +121,7 @@ const createCart = (merchandiseId,handle) => {
           console.error(error);
         });    
     } else {
-      console.log('cart already created')
+      console.log('Cart already created')
       cartLinesAdd(merchandiseId,handle)
     }
   
@@ -153,6 +157,7 @@ const createCart = (merchandiseId,handle) => {
           ) {
             cart {
               id
+              totalQuantity
             }
             userErrors {
               field
@@ -163,13 +168,16 @@ const createCart = (merchandiseId,handle) => {
         `
       }
     };
-    axios.request(options)
-      .then(function (response) {
-        console.log(response)
-      })
-      .catch(function (error) {
-        console.error(error);
-      });    
+    if (cartId) {
+      axios.request(options)
+        .then(function (response) {
+        settotalItems(response.data.data.cartLinesAdd.cart.totalQuantity)
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.error(error);
+        });    
+    };
   };
 
   
@@ -184,15 +192,13 @@ const createCart = (merchandiseId,handle) => {
   }, [])
 
 
-
-
   
   if (data) {
     try {
     return (
       <div>
-        <CartContext.Provider value={cartId}>
-        <Navigator value={cartId} />
+        <CartContext.Provider value={cartId} itemtotal={totalItems}>
+        <Navigator value={cartId}/>
         </CartContext.Provider>
         <Container>
         <Row>
