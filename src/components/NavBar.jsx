@@ -14,10 +14,6 @@ const Navigator = ({value}) => {
   const [cartId, setcartId] = useState(value)
   const CartContext = createContext(value);
 
-  useEffect(() => {
-    getCart(cartId);
-  }, []);
-
 
   const getCart = (cartId) => {
     const options = {
@@ -33,25 +29,42 @@ const Navigator = ({value}) => {
                 cart(id: "${cartId}") {
                   id
                   totalQuantity
+                  lines(first: 10) {
+                    edges {
+                      node {
+                        attributes {
+                          key
+                          value
+                        }
+                        id
+                        quantity
+                      }
+                    }
+                  }
                 }
               }
         
         `
       }
     };
-    axios.request(options)
-      .then(function (response) {
-        settotalItems(response.data.data.cart.totalQuantity)
-        console.log(response)
-        console.log(cartId)
-      })
-      .catch(function (error) {
-        console.error(error);
-      });      
+    if (cartId) {
+      axios.request(options)
+        .then(function (response) {
+          settotalItems(response.data.data.cart.totalQuantity)
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.error(error);
+        });   
+    };   
   
   };
 
 
+
+  useEffect(() => {
+    getCart(cartId);
+  }, []);
 
 
   return (
@@ -59,7 +72,10 @@ const Navigator = ({value}) => {
       <Container>
       <CartContext.Provider value={cartId}>
         {cartId}
-      <Link to="/cart">{totalItems}<Cart /></Link>
+        <Link to="/cart">
+      {totalItems == null ? (0) : (totalItems)}
+        <Cart /></Link>
+      {/* <Link to="/cart">{totalItems}<Cart /></Link> */}
       <Link to="/" state={cartId}><Navbar.Brand><img src={logo} height="25px" alt="icon" />Optigo</Navbar.Brand></Link>    
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

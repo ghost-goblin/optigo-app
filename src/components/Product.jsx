@@ -7,7 +7,6 @@ import Col from 'react-bootstrap/Col';
 import Spinner from 'react-bootstrap/Spinner';
 import axios from 'axios';
 import ErrorPage from "./ErrorPage.jsx";
-import CartCounter from "./CartCounter.jsx";
 import glasses from "../assets/glasses.svg";
 import Button from 'react-bootstrap/Button';
 import { useLocation } from 'react-router-dom';
@@ -65,7 +64,9 @@ const Product = () => {
   };
 
 
-const createCart = (merchandiseId) => {
+
+
+const createCart = (merchandiseId,handle) => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -79,46 +80,96 @@ const createCart = (merchandiseId) => {
           cartCreate(
             input: {
               lines: [
-                {
+                {  
+                  attributes: [
+                    {
+                      key: "${handle}",
+                      value: "${merchandiseId}"
+                    }
+                  ],
                   quantity: 1
                   merchandiseId: "${merchandiseId}"
                 }
               ]
-              attributes: { key: "cart_attribute", value: "This is a cart attribute" }
+              attributes: { key: "cart_key", value: "cart_value" }
             }
           ) {
             cart {
               id
-              createdAt
-              updatedAt
-              lines(first: 10) {
-                edges {
-                  node {
-                    id
-                    merchandise {
-                      ... on ProductVariant {
-                        id
-                      }
-                    }
-                  }
-                }
-              }    
+            }
+            userErrors {
+              field
+              message
             }
           }
-        }       
+        }
+        `
+      }
+    };
+    if (cartId == null) {
+      axios.request(options)
+        .then(function (response) {
+          setcartId(response.data.data.cartCreate.cart.id)
+          console.log(response.data.data.cartCreate.cart.id+' Cart created!')
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.error(error);
+        });    
+    } else {
+      console.log('cart already created')
+      cartLinesAdd(merchandiseId,handle)
+    }
+  
+  };
+
+
+
+  const cartLinesAdd  = (merchandiseId,handle) => {
+    const options = {
+      method: 'POST',
+      url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Storefront-Access-Token': `${process.env.REACT_APP_SHOPIFY_ACCESS_TOKEN}`,
+      },
+      data: {
+        query: `
+        mutation {
+          cartLinesAdd(
+            cartId: "${cartId}",
+            lines: [
+              {
+                attributes: [
+                  {
+                    key: "${handle}",
+                    value: "${merchandiseId}"
+                  }
+                ],
+                merchandiseId: "${merchandiseId}",
+                quantity: 1
+              }
+            ]
+          ) {
+            cart {
+              id
+            }
+            userErrors {
+              field
+              message
+            }
+          }
+        }  
         `
       }
     };
     axios.request(options)
       .then(function (response) {
-        setcartId(response.data.data.cartCreate.cart.id)
-        console.log(cartId+' Cart created!')
         console.log(response)
       })
       .catch(function (error) {
         console.error(error);
-      });      
-  
+      });    
   };
 
   
@@ -131,6 +182,8 @@ const createCart = (merchandiseId) => {
   useEffect(() => {
     setTimeout(() => setLoading(false), 5000)
   }, [])
+
+
 
 
   
@@ -153,8 +206,7 @@ const createCart = (merchandiseId) => {
           </Col>
           <Col>
           <h1>{data.title}</h1>
-          <CartCounter />
-          <Button onClick={(event) => createCart("gid://shopify/ProductVariant/48129423180120", event)}>Add to Cart</Button>
+          <Button onClick={(e) => createCart(data.variants.edges[0].node.id,data.handle)}>Add to Cart</Button>
           </Col>
         </Row>
         </Container>

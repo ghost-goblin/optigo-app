@@ -17,7 +17,6 @@ const CartCounter = () => {
                        />
         <Button variant="outline-secondary" id="button-addon2">+</Button>
         </InputGroup>
-        <Button type="submit">Loading...</Button>
        </div>
   );
 };
