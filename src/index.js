@@ -9,7 +9,7 @@ import Product from './components/Product.jsx';
 import ErrorPage from "./components/ErrorPage.jsx";
 import Cart from './components/Cart.jsx';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import store from './app/store'
+import { store } from './app/store'
 import { Provider } from 'react-redux'
 
 

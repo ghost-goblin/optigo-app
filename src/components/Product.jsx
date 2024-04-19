@@ -14,7 +14,7 @@ import { useLocation } from 'react-router-dom';
 
 const Product = () => {
   const { handle } = useParams();
-  const [data, setData] = useState(null);
+  const [product, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const CartContext = createContext(null);
   const location = useLocation();
@@ -65,8 +65,6 @@ const Product = () => {
       });   
   
   };
-
-
 
 
 const createCart = (merchandiseId,handle) => {
@@ -190,7 +188,7 @@ const createCart = (merchandiseId,handle) => {
   }, [])
 
   
-  if (data) {
+  if (product) {
     try {
     return (
       <div>
@@ -200,16 +198,16 @@ const createCart = (merchandiseId,handle) => {
         <Container>
         <Row>
           <Col>
-          {data.images.nodes[0] == null ? (
+          {product.images.nodes[0] == null ? (
                 <img width="100%" src={glasses} />
               ) : (
-                <img width="100%" src={data.images.nodes[0].src} />
+                <img width="100%" src={product.images.nodes[0].src} />
           )}
           
           </Col>
           <Col>
-          <h1>{data.title}</h1>
-          <Button onClick={(e) => createCart(data.variants.edges[0].node.id,data.handle)}>Add to Cart</Button>
+          <h1>{product.title}</h1>
+          <Button onClick={(e) => createCart(product.variants.edges[0].node.id,product.handle)}>Add to Cart</Button>
           </Col>
         </Row>
         </Container>
