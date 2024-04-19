@@ -1,3 +1,4 @@
+import React from 'react';
 import { useParams } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
 import Navigator from './NavBar.jsx';
@@ -10,64 +11,22 @@ import ErrorPage from "./ErrorPage.jsx";
 import glasses from "../assets/glasses.svg";
 import Button from 'react-bootstrap/Button';
 import { useLocation } from 'react-router-dom';
+import { useQueryQuery  } from '../services/api/product.js';
 
 
 const Product = () => {
   const { handle } = useParams();
-  const [product, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const CartContext = createContext(null);
   const location = useLocation();
   const [cartId, setcartId] = useState(location.state);
   const [totalItems, settotalItems] = useState(null);
+  const { data, error, isLoading } = useQueryQuery(handle);
+  console.log(data,error,isLoading);
 
   
-  const getProduct = (handle) => {
-    const options = {
-      method: 'POST',
-      url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': `${process.env.REACT_APP_SHOPIFY_ACCESS_TOKEN}`,
-      },
-      data: {
-        query: `{
-          product(handle: "${handle}") {
-            title
-            handle
-            availableForSale
-            totalInventory
-            images(first: 5) {
-              nodes {
-                src
-              }
-            }
-            variants(first: 5) {
-              edges {
-                node {
-                  id
-                }
-              }
-            }
-          }
-        }
-        `
-      }
-    };
 
-    axios.request(options)
-      .then(function (response) {
-        setData(response.data.data.product);
-        console.log(response)
-      })
-      .catch(function (error) {
-        console.error(error);
-      });   
-  
-  };
-
-
-const createCart = (merchandiseId,handle) => {
+const createCart = (merchandiseId, handle) => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -121,14 +80,14 @@ const createCart = (merchandiseId,handle) => {
         });
     } else {
       console.log('Cart already created')
-      cartLinesAdd(merchandiseId,handle)
+      cartLinesAdd(merchandiseId, handle)
     }
   
   };
 
 
 
-  const cartLinesAdd  = (merchandiseId,handle) => {
+  const cartLinesAdd  = (merchandiseId, handle) => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -179,16 +138,14 @@ const createCart = (merchandiseId,handle) => {
     };
   };
 
-  useEffect(() => {
-    getProduct(handle);
-  }, [handle]);
+
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 5000)
   }, [])
 
   
-  if (product) {
+  if (data) {
     try {
     return (
       <div>
@@ -198,16 +155,16 @@ const createCart = (merchandiseId,handle) => {
         <Container>
         <Row>
           <Col>
-          {product.images.nodes[0] == null ? (
+          {data.data.product.images.nodes[0] == null ? (
                 <img width="100%" src={glasses} />
               ) : (
-                <img width="100%" src={product.images.nodes[0].src} />
+                <img width="100%" src={data.data.product.images.nodes[0].src} />
           )}
           
           </Col>
           <Col>
-          <h1>{product.title}</h1>
-          <Button onClick={(e) => createCart(product.variants.edges[0].node.id,product.handle)}>Add to Cart</Button>
+          <h1>{data.data.product.title}</h1>
+          <Button onClick={(e) => createCart(data.data.product.variants.edges[0].node.id, data.data.product.handle)}>Add to Cart</Button>
           </Col>
         </Row>
         </Container>

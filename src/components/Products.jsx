@@ -4,7 +4,8 @@ import Row from 'react-bootstrap/Row';
 import { Outlet, Link } from "react-router-dom";
 import ErrorPage from "./ErrorPage.jsx";
 import glasses from "../assets/glasses.svg";
-import { useQueryQuery  } from '../services/api/products.js';
+import Spinner from 'react-bootstrap/Spinner';
+import { useQueryQuery  } from '../services/api/shop.js';
 
 
 
@@ -14,7 +15,6 @@ const Products = ({value}) => {
   console.log(data,error,isLoading);
   
   if (data) {
-    try {
     return (
       <div className="App">
       <Row xs={1} md={3} className="g-4">
@@ -32,12 +32,20 @@ const Products = ({value}) => {
       </Row>  
       <Outlet />  
       </div>
-    )} catch(e) {
-      console.log(e)
-    }
-  } return <div>
-  <ErrorPage />
+    )
+  } 
+  if (isLoading) {
+    return <div>
+    <Spinner animation="border" role="status">
+    <span className="visually-hidden">Loading...</span>
+     </Spinner>
+      </div>
+   }
+  if (error) {
+  return <div>
+   <ErrorPage />
     </div>
+ }
 };
 
 export default Products;

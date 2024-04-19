@@ -1,3 +1,4 @@
+import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -6,6 +7,8 @@ import logo from '../assets/logo.png';
 import { Link } from "react-router-dom";
 import { useEffect, createContext, useState } from "react";
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+
 
 
 
@@ -13,6 +16,7 @@ const Navigator = ({value}) => {
   const [totalItems, settotalItems] = useState(null);
   const [cartId] = useState(value)
   const CartContext = createContext(value);
+  const shop = useSelector((state) => state.shop.value)
 
 
   const getCart = (cartId) => {
@@ -74,7 +78,7 @@ const Navigator = ({value}) => {
       {totalItems == null ? ('') : (totalItems)}
         <Cart /></Link>
       {/* <Link to="/cart">{totalItems}<Cart /></Link> */}
-      <Link to="/" state={cartId}><Navbar.Brand><img src={logo} height="25px" alt="icon" />Optigo</Navbar.Brand></Link>    
+      <Link to="/" state={cartId}><Navbar.Brand><img src={logo} height="25px" alt="icon" />{shop}</Navbar.Brand></Link>    
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

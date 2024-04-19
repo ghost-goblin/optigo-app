@@ -5,10 +5,10 @@ import Navigator from './NavBar.jsx'
 import eye from "../assets/eye.png";
 import { createContext } from "react";
 import { useLocation } from 'react-router-dom';
-import { useQueryQuery  } from '../services/api/shop.js';
+import { useQueryQuery  } from '../services/api/info.js';
 import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { getshop } from '../features/shop/shopSlice.js';
+import { addshopname } from '../features/shop/infoSlice.js';
 
 
 const HomePage = () => {
@@ -20,12 +20,10 @@ const HomePage = () => {
 
   useEffect(() => {
     if (data) {
-    dispatch(getshop(data.data.shop.name));
+    dispatch(addshopname(data.data.shop.name));
     }   
   }, [data]); 
 
-  console.log(shop)
-  console.log(data,error,isLoading);
 
   if (data) {
     return (

@@ -26,15 +26,15 @@ const axiosBaseQuery =
   };
 
 
-export const productsApi = createApi({
-    reducerPath: 'productsApi',
+export const productApi = createApi({
+    reducerPath: 'productApi',
     baseQuery: axiosBaseQuery({
         baseUrl: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
       }),
       endpoints(build) {
         return {
           query: build.query({ 
-            query: () => ({ 
+            query: (handle) => ({ 
             url: '', 
             headers: {
                 'Content-Type': 'application/json',
@@ -42,29 +42,27 @@ export const productsApi = createApi({
               },
             method: 'POST',
             data: {
-                query: `{
-                    products(first: 1) {
+                query: `
+                {
+                  product(handle: "${handle}") {
+                    title
+                    handle
+                    availableForSale
+                    totalInventory
+                    images(first: 5) {
+                      nodes {
+                        src
+                      }
+                    }
+                    variants(first: 5) {
                       edges {
                         node {
                           id
-                          title
-                          handle
-                          description
-                          featuredImage {
-                            src
-                          }
-                          variants(first: 1) {
-                            nodes {
-                              price {
-                                amount
-                                currencyCode
-                              }
-                            }
-                          }
                         }
                       }
                     }
-                  } 
+                  }
+                }
                 `
               }
             })
@@ -74,4 +72,4 @@ export const productsApi = createApi({
 });
 
 
-export const { useQueryQuery} = productsApi
+export const { useQueryQuery} = productApi

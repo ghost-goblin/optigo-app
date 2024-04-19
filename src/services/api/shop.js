@@ -43,8 +43,26 @@ export const shopApi = createApi({
             method: 'POST',
             data: {
                 query: `{
-                  shop {
-                    name
+                  products(first: 9) {
+                    edges {
+                      node {
+                        id
+                        title
+                        handle
+                        description
+                        featuredImage {
+                          src
+                        }
+                        variants(first: 1) {
+                          nodes {
+                            price {
+                              amount
+                              currencyCode
+                            }
+                          }
+                        }
+                      }
+                    }
                   }
                 }
                 `

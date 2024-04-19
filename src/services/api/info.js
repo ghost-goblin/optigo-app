@@ -26,8 +26,8 @@ const axiosBaseQuery =
   };
 
 
-export const productsApi = createApi({
-    reducerPath: 'productsApi',
+export const infoApi = createApi({
+    reducerPath: 'infoApi',
     baseQuery: axiosBaseQuery({
         baseUrl: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
       }),
@@ -43,28 +43,12 @@ export const productsApi = createApi({
             method: 'POST',
             data: {
                 query: `{
-                    products(first: 1) {
-                      edges {
-                        node {
-                          id
-                          title
-                          handle
-                          description
-                          featuredImage {
-                            src
-                          }
-                          variants(first: 1) {
-                            nodes {
-                              price {
-                                amount
-                                currencyCode
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  } 
+                  shop {
+                    name
+                    description
+                    moneyFormat
+                  }
+                }
                 `
               }
             })
@@ -74,4 +58,4 @@ export const productsApi = createApi({
 });
 
 
-export const { useQueryQuery} = productsApi
+export const { useQueryQuery} = infoApi
