@@ -6,12 +6,25 @@ import eye from "../assets/eye.png";
 import { createContext } from "react";
 import { useLocation } from 'react-router-dom';
 import { useQueryQuery  } from '../services/api/shop.js';
+import { useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { getshop } from '../features/shop/shopSlice.js';
 
 
 const HomePage = () => {
   const CartContext = createContext(null);
   const location = useLocation();
   const { data, error, isLoading } = useQueryQuery();
+  const shop = useSelector((state) => state.shop.value)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (data) {
+    dispatch(getshop(data.data.shop.name));
+    }   
+  }, [data]); 
+
+  console.log(shop)
   console.log(data,error,isLoading);
 
   if (data) {
@@ -19,7 +32,7 @@ const HomePage = () => {
       <div>
         <CartContext.Provider value={location.state}>
           <Navigator value={location.state} />
-        <h1>{data.data.shop.name}</h1>
+        <h1>{shop}</h1>
         <h1>Optical solutions with a personal touch</h1>
         <img src={eye} />
         <img src={image} />
