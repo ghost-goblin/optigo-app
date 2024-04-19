@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import Navigator from './NavBar.jsx';
 import { useLocation } from 'react-router-dom';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { decrement, increment } from '../features/counter/counterSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { decrement, increment } from '../features/counter/counterSlice';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -11,8 +11,8 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 const Cart = () => {
   const location = useLocation();
-  // const count = useSelector((state) => state.counter.value)
-  // const dispatch = useDispatch()
+  const count = useSelector((state) => state.counter.value)
+  const dispatch = useDispatch()
   
   return (
     <>
@@ -25,9 +25,9 @@ const Cart = () => {
         variant="outline-secondary" 
         id="button-addon2"
         aria-label="Increment value"
-        // onClick={() => dispatch(decrement())}
+        onClick={() => dispatch(decrement())}
         >-</Button>
-        <Form.Control disabled placeholder="1"
+        <Form.Control disabled placeholder={count}
                       aria-label="Cart Addon"
                       aria-describedby="cart-addon"
                        />
@@ -35,7 +35,7 @@ const Cart = () => {
         variant="outline-secondary" 
         id="button-addon2"
         aria-label="Increment value"
-        // onClick={() => dispatch(increment())}
+        onClick={() => dispatch(increment())}
         >+</Button>
       </InputGroup>
     </>

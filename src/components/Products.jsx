@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import { Outlet, Link } from "react-router-dom";
 import ErrorPage from "./ErrorPage.jsx";
 import glasses from "../assets/glasses.svg";
-import { useQueryQuery  } from '../services/products/products.js';
+import { useQueryQuery  } from '../services/api/products.js';
 
 
 
