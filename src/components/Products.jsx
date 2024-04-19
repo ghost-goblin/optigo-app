@@ -5,7 +5,7 @@ import { Outlet, Link } from "react-router-dom";
 import ErrorPage from "./ErrorPage.jsx";
 import glasses from "../assets/glasses.svg";
 import Spinner from 'react-bootstrap/Spinner';
-import { useQueryQuery  } from '../services/api/shop.js';
+import { useQueryQuery  } from '../services/api/products.js';
 
 
 

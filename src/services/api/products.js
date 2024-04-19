@@ -43,7 +43,7 @@ export const productsApi = createApi({
             method: 'POST',
             data: {
                 query: `{
-                    products(first: 1) {
+                    products(first: 3) {
                       edges {
                         node {
                           id
@@ -53,7 +53,7 @@ export const productsApi = createApi({
                           featuredImage {
                             src
                           }
-                          variants(first: 1) {
+                          variants(first: 5) {
                             nodes {
                               price {
                                 amount
