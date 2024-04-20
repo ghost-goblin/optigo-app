@@ -13,12 +13,13 @@ import { addshopname } from '../features/shop/infoSlice.js';
 const HomePage = () => {
   const CartContext = createContext(null);
   const { data, error, isLoading } = useQueryQuery();
-  const shop = useSelector((state) => state.shop.value)
-  const dispatch = useDispatch()
+  const shop = useSelector((state) => state.shop.value);
+  const dispatch = useDispatch();
+  console.log(data, error, isLoading)
 
   useEffect(() => {
     if (data) {
-    dispatch(addshopname(data.data.shop.name));
+      dispatch(addshopname(data.data.shop.name));
     }   
   }, [data]); 
 

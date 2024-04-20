@@ -19,7 +19,7 @@ export const store = configureStore({
     [productsApi.reducerPath]: productsApi.reducer,
     [infoApi.reducerPath]: infoApi.reducer,
     [shopApi.reducerPath]: shopApi.reducer,
-    [cartApi .reducerPath]: cartApi.reducer,
+    [cartApi.reducerPath]: cartApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

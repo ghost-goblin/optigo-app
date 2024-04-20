@@ -15,12 +15,12 @@ import { addcarttotalitem } from '../features/cart/cartSlice';
 
 const Navigator = () => {
   const [totalItems, settotalItems] = useState(0);
-  const shop = useSelector((state) => state.shop.value)
-  const cart = useSelector((state) => state.cart.cartid)
+  const shop = useSelector((state) => state.shop.value);
+  const cart = useSelector((state) => state.cart.cartid);
   const [cartId] = useState(cart);
-  const carttotalitems = useSelector((state) => state.cart.totalitems)
+  const carttotalitems = useSelector((state) => state.cart.totalitems);
   const CartContext = createContext(cart);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
 
   const getCart = () => {
