@@ -3,12 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 export const shopSlice = createSlice({
   name: 'shop',
   initialState: {
-    value: null,
+    name: null,
     description: null,
+    moneyFormat: null
   },
   reducers: {
     addshopname: (state, action) => {
-      state.value = action.payload
+      state.name = action.payload
     },
   },
 })

@@ -15,7 +15,7 @@ import { addcarttotalitem } from '../features/cart/cartSlice';
 
 const Navigator = () => {
   const [totalItems, settotalItems] = useState(0);
-  const shop = useSelector((state) => state.shop.value);
+  const shopname = useSelector((state) => state.shop.name);
   const cart = useSelector((state) => state.cart.cartid);
   const [cartId] = useState(cart);
   const carttotalitems = useSelector((state) => state.cart.totalitems);
@@ -83,7 +83,11 @@ const Navigator = () => {
         <Link to="/cart">
       {carttotalitems == null ? ('') : (carttotalitems)}
         <Cart /></Link>
-      <Link to="/"><Navbar.Brand><img src={logo} height="25px" alt="icon" />{shop}</Navbar.Brand></Link>    
+      <Link to="/">
+      <Navbar.Brand><img src={logo} height="25px" alt="icon" />
+      {shopname}
+      </Navbar.Brand>
+      </Link>    
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

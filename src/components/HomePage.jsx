@@ -13,7 +13,7 @@ import { addshopname } from '../features/shop/infoSlice.js';
 const HomePage = () => {
   const CartContext = createContext(null);
   const { data, error, isLoading } = useQueryQuery();
-  const shop = useSelector((state) => state.shop.value);
+  const shopname = useSelector((state) => state.shop.name);
   const dispatch = useDispatch();
   console.log(data, error, isLoading)
 
@@ -29,7 +29,7 @@ const HomePage = () => {
       <div>
         <CartContext.Provider >
           <Navigator />
-        <h1>{shop}</h1>
+        <h1>{shopname}</h1>
         <h1>Optical solutions with a personal touch</h1>
         <img src={eye} />
         <img src={image} />

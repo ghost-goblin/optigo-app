@@ -64,11 +64,9 @@ const Cart = () => {
   }, [cartId]);
 
 
-
-
     return (
-      <>
-        <Navigator />   
+      <> 
+        <Navigator />  
         {lineItems == null ? (
             <div>
             <p>Whoops! So empty!</p>

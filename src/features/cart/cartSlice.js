@@ -5,6 +5,7 @@ export const cartSlice = createSlice({
   initialState: {
     cartid: null,
     totalitems: 0,
+    lineitem: 0
   },
   reducers: {
     addcartid: (state, action) => {
@@ -13,10 +14,13 @@ export const cartSlice = createSlice({
     addcarttotalitem: (state, action) => {
         state.totalitems = action.payload
       },
+    addlineitems: (state, action) => {
+        state.lineitem = action.payload
+      },
   },
 })
 
 
-export const { addcartid, addcarttotalitem } = cartSlice.actions
+export const { addcartid, addcarttotalitem, addlineitems } = cartSlice.actions
 
 export default cartSlice.reducer
