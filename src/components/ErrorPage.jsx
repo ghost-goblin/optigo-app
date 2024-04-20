@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+// import Navigator from './NavBar.jsx';
 
 const ErrorPage = () => {
   return (

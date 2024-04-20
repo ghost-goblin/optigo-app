@@ -10,19 +10,21 @@ import axios from 'axios';
 import ErrorPage from "./ErrorPage.jsx";
 import glasses from "../assets/glasses.svg";
 import Button from 'react-bootstrap/Button';
-import { useLocation } from 'react-router-dom';
 import { useQueryQuery  } from '../services/api/product.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { addcartid } from '../features/cart/cartSlice'
 
 
 const Product = () => {
   const { handle } = useParams();
   const [loading, setLoading] = useState(true);
   const CartContext = createContext(null);
-  const location = useLocation();
-  const [cartId, setcartId] = useState(location.state);
-  const [totalItems, settotalItems] = useState(null);
+  const [totalItems, settotalItems] = useState(0);
   const { data, error, isLoading } = useQueryQuery(handle);
   console.log(data,error,isLoading);
+  const cart = useSelector((state) => state.cart.cartid)
+  const [cartId, setcartId] = useState(cart);
+  const dispatch = useDispatch()
 
   
 
@@ -74,6 +76,7 @@ const createCart = (merchandiseId, handle) => {
           settotalItems(response.data.data.cartCreate.cart.totalQuantity)
           console.log(response.data.data.cartCreate.cart.id+' Cart created!')
           console.log(response)
+          dispatch((addcartid(response.data.data.cartCreate.cart.id)))
         })
         .catch(function (error) {
           console.error(error);
@@ -150,7 +153,7 @@ const createCart = (merchandiseId, handle) => {
     return (
       <div>
         <CartContext.Provider value={cartId} itemtotal={totalItems}>
-        <Navigator value={cartId}/>
+        <Navigator />
         </CartContext.Provider>
         <Container>
         <Row>
