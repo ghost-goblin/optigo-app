@@ -14,16 +14,16 @@ import { addcarttotalitem } from '../features/cart/cartSlice';
 
 
 const Navigator = () => {
-  const [totalItems, settotalItems] = useState(null);
+  const [totalItems, settotalItems] = useState(0);
   const shop = useSelector((state) => state.shop.value)
   const cart = useSelector((state) => state.cart.cartid)
-  const [cartId] = useState(cart)
+  const [cartId] = useState(cart);
   const carttotalitems = useSelector((state) => state.cart.totalitems)
   const CartContext = createContext(cart);
   const dispatch = useDispatch()
 
 
-  const getCart = (cart) => {
+  const getCart = () => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -54,24 +54,25 @@ const Navigator = () => {
               `
       }
     };
-    if (cartId) {
-      axios.request(options)
-        .then(function (response) {
-          settotalItems(response.data.data.cart.totalQuantity)
-          dispatch((addcarttotalitem(response.data.data.cart.totalQuantity)))
-          console.log(response)
-        })
-        .catch(function (error) {
-          console.error(error);
-        });   
-    };   
-  
+    axios.request(options)
+      .then(function (response) {
+        settotalItems(response.data.data.cart.totalQuantity)
+        dispatch((addcarttotalitem(response.data.data.cart.totalQuantity)))
+        console.log(response)
+        return response
+      })
+      .catch(function (error) {
+        console.error(error);
+      });   
+ 
   };
 
 
 
   useEffect(() => {
-    getCart(cartId);
+    if (cartId) {
+      getCart();
+    }
   }, [cartId]);
 
 
@@ -82,7 +83,6 @@ const Navigator = () => {
         <Link to="/cart">
       {carttotalitems == null ? ('') : (carttotalitems)}
         <Cart /></Link>
-      {/* <Link to="/cart">{totalItems}<Cart /></Link> */}
       <Link to="/"><Navbar.Brand><img src={logo} height="25px" alt="icon" />{shop}</Navbar.Brand></Link>    
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

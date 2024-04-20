@@ -9,7 +9,7 @@ import { useQueryQuery  } from '../services/api/products.js';
 
 
 
-const Products = ({value}) => {
+const Products = () => {
 
   const { data, error, isLoading } = useQueryQuery();
   console.log(data,error,isLoading);
@@ -22,9 +22,9 @@ const Products = ({value}) => {
           <Col key={item.node.id}>
             <Card>
               {item.node.featuredImage == null ? (
-                <Link to={`/product/${item.node.handle}`} state={value}><Card.Img variant="top" src={glasses} /></Link>
+                <Link to={`/product/${item.node.handle}`}><Card.Img variant="top" src={glasses} /></Link>
               ) : (
-                <Link to={`/product/${item.node.handle}`} state={value}><Card.Img variant="top" src={item.node.featuredImage.src} /></Link>
+                <Link to={`/product/${item.node.handle}`}><Card.Img variant="top" src={item.node.featuredImage.src} /></Link>
               )}
             </Card>
           </Col>
