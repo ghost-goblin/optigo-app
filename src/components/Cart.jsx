@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useQueryQuery  } from '../services/api/cart';
+import axios from 'axios';
 
 
 const Cart = () => {
@@ -14,16 +15,61 @@ const Cart = () => {
   const [cartId] = useState(cart);
   const { data, error, isLoading } = useQueryQuery(cartId);
   const [lineItems, setlineItems] = useState(null);
-  const CartContext = createContext(null);
+  const CartContext = createContext(lineItems);
   console.log(data, error, isLoading);
 
-  
 
-  if (data) {
+  useEffect(() => {
+    if (cartId) {
+      const options = {
+        method: 'POST',
+        url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': `${process.env.REACT_APP_SHOPIFY_ACCESS_TOKEN}`,
+        },
+        data: {
+          query: `
+                {
+                  cart(id: "${cartId}") {
+                    id
+                    totalQuantity
+                    lines(first: 10) {
+                      edges {
+                        node {
+                          attributes {
+                            key
+                            value
+                          }
+                          id
+                          quantity
+                        }
+                      }
+                    }
+                  }
+                }
+             `
+          }
+      };
+      axios.request(options)
+        .then(function (response) {
+          setlineItems(response.data.data.cart.lines)
+          console.log(response)
+          return response
+        })
+        .catch(function (error) {
+          console.error(error);
+        });   
+    }
+  }, [cartId]);
+
+
+
+
     return (
       <>
         <Navigator />   
-        {data.errors ? (
+        {lineItems == null ? (
             <div>
             <p>Whoops! So empty!</p>
             <Link to="/" >Click here to go back</Link>
@@ -31,7 +77,7 @@ const Cart = () => {
             ) : (
             <div>
             <CartContext.Provider value={lineItems}>
-            {data.data.cart.lines.edges.map((item) => (
+            {lineItems.edges.map((item) => (
               <div>
               {item.node.attributes.map((node) => (
                <InputGroup size="lg">
@@ -63,6 +109,5 @@ const Cart = () => {
       </>
     );
   };
-};
 
 export default Cart;

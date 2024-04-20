@@ -21,7 +21,7 @@ if (data) {
   try {
   return (
     <div className="App">
-        <Navigator />
+    <Navigator />
      <Row xs={1} md={3} className="g-4">
           {data.data.products.edges.map((item) => (
         <Col key={item.node.id}>
@@ -47,6 +47,7 @@ if (data) {
  } 
  if (isLoading) {
   return <div>
+  <Navigator />
   <Spinner animation="border" role="status">
   <span className="visually-hidden">Loading...</span>
    </Spinner>
