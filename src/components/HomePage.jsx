@@ -21,7 +21,7 @@ const HomePage = () => {
     if (data) {
       dispatch(addshopname(data.data.shop.name));
     }   
-  }, [data]); 
+  }, [data,dispatch]); 
 
 
   if (data) {
