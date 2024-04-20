@@ -13,7 +13,6 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart.cartid)
   const [cartId] = useState(cart);
   const { data, error, isLoading } = useQueryQuery(cartId);
-  const carttotalitems = useSelector((state) => state.cart.totalitems);
   const [lineItems, setlineItems] = useState(null);
   const CartContext = createContext(null);
   console.log(data, error, isLoading);
@@ -35,19 +34,19 @@ const Cart = () => {
             </div>
             ) : (
             <div>
-               <CartContext.Provider value={lineItems}>
-              {carttotalitems}
+            <CartContext.Provider value={lineItems}>
             {data.data.cart.lines.edges.map((item) => (
               <div>
-               {JSON.stringify(item)}
+              {item.node.attributes.map((node) => (
                <InputGroup size="lg">
+                {JSON.stringify(node)}
                 <Button 
                 variant="outline-secondary" 
                 id="button-addon2"
                 aria-label="Increment value"
                 // onClick={() => dispatch(decrement())}
                 >-</Button>
-                <Form.Control disabled placeholder='0'
+                <Form.Control disabled placeholder={item.node.quantity}
                               aria-label="Cart Addon"
                               aria-describedby="cart-addon"
                               />
@@ -57,7 +56,8 @@ const Cart = () => {
                 aria-label="Increment value"
                 // onClick={() => dispatch(increment())}
                 >+</Button>
-              </InputGroup>       
+              </InputGroup> 
+               ))}      
               </div>
             ))}
             </CartContext.Provider>
