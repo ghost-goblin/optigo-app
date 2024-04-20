@@ -23,57 +23,51 @@ const Navigator = () => {
   const dispatch = useDispatch();
 
 
-  const getCart = () => {
-    const options = {
-      method: 'POST',
-      url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': `${process.env.REACT_APP_SHOPIFY_ACCESS_TOKEN}`,
-      },
-      data: {
-        query: `
-              {
-                cart(id: "${cart}") {
-                  id
-                  totalQuantity
-                  lines(first: 10) {
-                    edges {
-                      node {
-                        attributes {
-                          key
-                          value
+
+  useEffect(() => {
+    if (cartId) {
+      const options = {
+        method: 'POST',
+        url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': `${process.env.REACT_APP_SHOPIFY_ACCESS_TOKEN}`,
+        },
+        data: {
+          query: `
+                {
+                  cart(id: "${cartId}") {
+                    id
+                    totalQuantity
+                    lines(first: 10) {
+                      edges {
+                        node {
+                          attributes {
+                            key
+                            value
+                          }
+                          id
+                          quantity
                         }
-                        id
-                        quantity
                       }
                     }
                   }
                 }
-              }
-              `
-      }
-    };
-    axios.request(options)
-      .then(function (response) {
-        settotalItems(response.data.data.cart.totalQuantity)
-        dispatch((addcarttotalitem(response.data.data.cart.totalQuantity)))
-        console.log(response)
-        return response
-      })
-      .catch(function (error) {
-        console.error(error);
-      });   
- 
-  };
-
-
-
-  useEffect(() => {
-    if (cartId) {
-      getCart();
+                `
+        }
+      };
+      axios.request(options)
+        .then(function (response) {
+          settotalItems(response.data.data.cart.totalQuantity)
+          dispatch((addcarttotalitem(response.data.data.cart.totalQuantity)))
+          console.log(response)
+          return response
+        })
+        .catch(function (error) {
+          console.error(error);
+        }); 
     }
-  }, [cartId]);
+  }, [cartId, dispatch]);
 
 
   return (
