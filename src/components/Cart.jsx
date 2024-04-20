@@ -18,10 +18,6 @@ const Cart = () => {
   console.log(data, error, isLoading);
 
   
-  useEffect(() => {
-    setlineItems(data);
-  }, []);
-
 
   if (data) {
     return (
@@ -61,6 +57,7 @@ const Cart = () => {
               </div>
             ))}
             </CartContext.Provider>
+            <Button>Checkout</Button>
             </div>
           )}
       </>
