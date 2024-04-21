@@ -14,10 +14,10 @@ const Cart = () => {
   const [cartId] = useState(cart);
   const [lineItems, setlineItems] = useState(null);
   const [imageSrc, setimageSrc] = useState([]);
-  const [newimageSrc, setnewimageSrc] = useState(null);
+  const [isLoading, setisLoading] = useState(null);
   const [productHandles, setproductHandles] = useState([]);
   const CartContext = createContext(null);
-  const ImageContext = createContext(null);
+  const ImageContext = createContext(imageSrc);
 
 
   useEffect(() => {
@@ -117,23 +117,30 @@ const Cart = () => {
         .catch(function (error) {
           console.error(error);
         });
-      
-    })   
+        console.log('hehehehe '+imageSrc)
+    }) 
+
+
+    
 
    } 
+
+   
   }, [lineItems]); 
 
   
   useEffect(() => {
-    setnewimageSrc(imageSrc)
+    setisLoading(imageSrc)  
+
   }, [imageSrc]); 
+
 
   
 
   
   console.log(productHandles,imageSrc)
 
-
+  if (isLoading) {
   return (
       <> 
         <Navigator />  
@@ -145,7 +152,7 @@ const Cart = () => {
             ) : (
             <div>
             <CartContext.Provider value={lineItems}>
-            <ImageContext.Provider value={imageSrc}>
+            <ImageContext.Provider value={isLoading}>
             {JSON.stringify(productHandles)}
             {JSON.stringify(imageSrc)}
         
@@ -162,9 +169,6 @@ const Cart = () => {
                    {JSON.stringify(src)}
                    </>
                 ))} */}
-
-             
-
 
                
                 <Button 
@@ -195,5 +199,6 @@ const Cart = () => {
       </>
     );
   };
+}
 
 export default Cart;
