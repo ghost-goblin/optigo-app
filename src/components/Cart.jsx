@@ -6,20 +6,26 @@ import { useState, useEffect, createContext } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { useQueryQuery  } from '../services/api/cart';
+// import { useQueryQuery  } from '../services/api/product';
 import axios from 'axios';
 
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart.cartid)
   const [cartId] = useState(cart);
-  const { data, error, isLoading } = useQueryQuery(cartId);
   const [lineItems, setlineItems] = useState(null);
+  const [imageSrc, setimageSrc] = useState([]);
+  const [productHandles, setproductHandles] = useState([]);
   const CartContext = createContext(lineItems);
-  console.log(data, error, isLoading);
+  const ImageContext = createContext(imageSrc);
+
+
+
+  // const { data, error, isLoading } = useQueryQuery();
 
 
   useEffect(() => {
+
     if (cartId) {
       const options = {
         method: 'POST',
@@ -34,6 +40,13 @@ const Cart = () => {
                   cart(id: "${cartId}") {
                     id
                     totalQuantity
+                    checkoutUrl
+                    cost {
+                      totalAmount {
+                        amount
+                        currencyCode
+                      }
+                    }
                     lines(first: 10) {
                       edges {
                         node {
@@ -54,17 +67,94 @@ const Cart = () => {
       axios.request(options)
         .then(function (response) {
           setlineItems(response.data.data.cart.lines)
+          
+        
           console.log(response)
           return response
         })
         .catch(function (error) {
           console.error(error);
-        });   
+        });
     }
+
   }, [cartId]);
 
 
-    return (
+
+  useEffect(() => {
+    let handles = []
+    let productimages = []
+    if (lineItems) {
+      lineItems.edges.forEach((edge) => {
+        edge.node.attributes.forEach((atrribute) => {
+          console.log(atrribute)
+          handles.push(atrribute.key)
+
+        })
+    })
+    setproductHandles(handles)
+    handles.forEach((handle) => {
+      const options = {
+        method: 'POST',
+        url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': `${process.env.REACT_APP_SHOPIFY_ACCESS_TOKEN}`,
+        },
+        data: {
+          query: `
+              {
+                product(handle: "${handle}") {
+                  title
+                  handle
+                  availableForSale
+                  totalInventory
+                  images(first: 5) {
+                    nodes {
+                      src
+                    }
+                  }
+                  variants(first: 5) {
+                    edges {
+                      node {
+                        id
+                      }
+                    }
+                  }
+                }
+              }
+            `
+          }
+      };
+
+      axios.request(options)
+        .then(function (response) {
+          response.data.data.product.images.nodes.forEach((image) => {
+            productimages.push(image.src)
+
+          })
+          console.log(productimages)
+          setimageSrc(productimages)
+
+        
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+      
+    })   
+
+   } 
+  }, [lineItems]); 
+
+  
+
+  
+
+  console.log(productHandles,imageSrc)
+
+
+  return (
       <> 
         <Navigator />  
         {lineItems == null ? (
@@ -75,11 +165,28 @@ const Cart = () => {
             ) : (
             <div>
             <CartContext.Provider value={lineItems}>
+            <ImageContext.Provider value={imageSrc}>
+            {JSON.stringify(productHandles)}
+            {JSON.stringify(imageSrc)}
+        
             {lineItems.edges.map((item) => (
               <div>
               {item.node.attributes.map((node) => (
                <InputGroup size="lg">
+                {/* <img src={imageSrc} />{imageSrc} */}
                 {JSON.stringify(node)}
+              
+
+                {/* {imageSrc.map((src) => (
+                  <>
+                   {JSON.stringify(src)}
+                   </>
+                ))} */}
+
+             
+
+
+               
                 <Button 
                 variant="outline-secondary" 
                 id="button-addon2"
@@ -100,8 +207,9 @@ const Cart = () => {
                ))}      
               </div>
             ))}
+            </ImageContext.Provider>
             </CartContext.Provider>
-            <Button>Checkout</Button>
+            <Link to="/cart"><Button>Checkout</Button></Link>
             </div>
           )}
       </>

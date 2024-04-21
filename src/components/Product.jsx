@@ -13,6 +13,7 @@ import Button from 'react-bootstrap/Button';
 import { useQueryQuery  } from '../services/api/product.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { addcartid } from '../features/cart/cartSlice'
+import { Link } from "react-router-dom";
 
 
 const Product = () => {
@@ -168,6 +169,7 @@ const createCart = (merchandiseId, handle) => {
           <Col>
           <h1>{data.data.product.title}</h1>
           <Button onClick={(e) => createCart(data.data.product.variants.edges[0].node.id, data.data.product.handle)}>Add to Cart</Button>
+          <Link to="/cart"><Button>Review Order</Button></Link>
           </Col>
         </Row>
         </Container>

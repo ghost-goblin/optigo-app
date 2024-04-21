@@ -39,6 +39,7 @@ const Navigator = () => {
                   cart(id: "${cartId}") {
                     id
                     totalQuantity
+                    checkoutUrl
                     lines(first: 10) {
                       edges {
                         node {
