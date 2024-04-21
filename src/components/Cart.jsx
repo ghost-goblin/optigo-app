@@ -6,7 +6,6 @@ import { useState, useEffect, createContext } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-// import { useQueryQuery  } from '../services/api/product';
 import axios from 'axios';
 
 
@@ -15,17 +14,13 @@ const Cart = () => {
   const [cartId] = useState(cart);
   const [lineItems, setlineItems] = useState(null);
   const [imageSrc, setimageSrc] = useState([]);
+  const [newimageSrc, setnewimageSrc] = useState(null);
   const [productHandles, setproductHandles] = useState([]);
-  const CartContext = createContext(lineItems);
-  const ImageContext = createContext(imageSrc);
-
-
-
-  // const { data, error, isLoading } = useQueryQuery();
+  const CartContext = createContext(null);
+  const ImageContext = createContext(null);
 
 
   useEffect(() => {
-
     if (cartId) {
       const options = {
         method: 'POST',
@@ -66,9 +61,7 @@ const Cart = () => {
       };
       axios.request(options)
         .then(function (response) {
-          setlineItems(response.data.data.cart.lines)
-          
-        
+          setlineItems(response.data.data.cart.lines)   
           console.log(response)
           return response
         })
@@ -93,7 +86,7 @@ const Cart = () => {
         })
     })
     setproductHandles(handles)
-    handles.forEach((handle) => {
+    productHandles.forEach((handle) => {
       const options = {
         method: 'POST',
         url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -103,39 +96,22 @@ const Cart = () => {
         },
         data: {
           query: `
-              {
-                product(handle: "${handle}") {
-                  title
-                  handle
-                  availableForSale
-                  totalInventory
-                  images(first: 5) {
-                    nodes {
-                      src
-                    }
-                  }
-                  variants(first: 5) {
-                    edges {
-                      node {
-                        id
-                      }
-                    }
-                  }
+            {
+              productByHandle(handle: "${handle}") {
+                featuredImage {
+                  src
                 }
               }
+            }
             `
           }
       };
-
       axios.request(options)
         .then(function (response) {
-          response.data.data.product.images.nodes.forEach((image) => {
-            productimages.push(image.src)
-
-          })
-          console.log(productimages)
+          console.log(response.data.data.productByHandle.featuredImage.src)
+          productimages.push(response.data.data.productByHandle.featuredImage.src)
+          console.log('productimages: '+productimages)
           setimageSrc(productimages)
-
         
         })
         .catch(function (error) {
@@ -148,9 +124,13 @@ const Cart = () => {
   }, [lineItems]); 
 
   
+  useEffect(() => {
+    setnewimageSrc(imageSrc)
+  }, [imageSrc]); 
 
   
 
+  
   console.log(productHandles,imageSrc)
 
 
