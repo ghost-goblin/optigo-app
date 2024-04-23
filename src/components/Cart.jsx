@@ -68,7 +68,6 @@ const Cart = () => {
   }, [cartId]);
 
   
-  console.log(productHandles,productImages)
 
   return (
       <> 
