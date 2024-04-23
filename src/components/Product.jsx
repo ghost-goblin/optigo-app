@@ -29,7 +29,7 @@ const Product = () => {
 
   
 
-const createCart = (merchandiseId, handle) => {
+const createCart = (merchandiseId, handle, imagesrc) => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -47,7 +47,7 @@ const createCart = (merchandiseId, handle) => {
                   attributes: [
                     {
                       key: "${handle}",
-                      value: "${merchandiseId}"
+                      value: "${imagesrc}"
                     }
                   ],
                   quantity: 1
@@ -84,14 +84,14 @@ const createCart = (merchandiseId, handle) => {
         });
     } else {
       console.log('Cart already created')
-      cartLinesAdd(merchandiseId, handle)
+      cartLinesAdd(merchandiseId, handle, imagesrc)
     }
   
   };
 
 
 
-  const cartLinesAdd  = (merchandiseId, handle) => {
+  const cartLinesAdd  = (merchandiseId, handle, imagesrc) => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -109,7 +109,7 @@ const createCart = (merchandiseId, handle) => {
                 attributes: [
                   {
                     key: "${handle}",
-                    value: "${merchandiseId}"
+                    value: "${imagesrc}"
                   }
                 ],
                 merchandiseId: "${merchandiseId}",
@@ -168,7 +168,7 @@ const createCart = (merchandiseId, handle) => {
           </Col>
           <Col>
           <h1>{data.data.product.title}</h1>
-          <Button onClick={(e) => createCart(data.data.product.variants.edges[0].node.id, data.data.product.handle)}>Add to Cart</Button>
+          <Button onClick={(e) => createCart(data.data.product.variants.edges[0].node.id, data.data.product.handle, data.data.product.images.nodes[0].src)}>Add to Cart</Button>
           <Link to="/cart"><Button>Review Order</Button></Link>
           </Col>
         </Row>

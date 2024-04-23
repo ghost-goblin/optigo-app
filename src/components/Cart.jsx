@@ -16,7 +16,6 @@ const Cart = () => {
   const [productImages, setproductImages] = useState(null);
   const [productHandles, setproductHandles] = useState([]);
   const CartContext = createContext(lineItems);
-  const ImageContext = createContext(productImages);
 
 
   useEffect(() => {
@@ -67,61 +66,8 @@ const Cart = () => {
           console.error(error);
         });
     }
-
-  }, [cartId]);
-
-
-
-  useEffect(() => {
-    let handles = [];
-    let productimages = [];
-    let promises = [];
-    if (lineItems) {
-      lineItems.edges.forEach((edge) => {
-        edge.node.attributes.forEach((atrribute) => {
-          console.log(atrribute)
-          handles.push(atrribute.key)
-
-        })
-      })
-    }
-    setproductHandles(handles)
-    productHandles.forEach((handle) => {
-      const options = {
-        method: 'POST',
-        url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Shopify-Storefront-Access-Token': `${process.env.REACT_APP_SHOPIFY_ACCESS_TOKEN}`,
-        },
-        data: {
-          query: `
-            {
-              productByHandle(handle: "${handle}") {
-                featuredImage {
-                  src
-                }
-              }
-            }
-            `
-          }
-      };
-      const res = axios.request(options).then(response => {
-        productimages.push(response.data.data.productByHandle.featuredImage.src);
-      })
-      .catch(err => console.log(err))
-      promises.push(res)
-    });
     
-    Promise.all(promises).then(() => setproductImages(productimages));
-
-
-  }, [lineItems]); 
-
-  
-
-  useEffect(() => {
-  }, [productHandles, productImages]); 
+  }, [cartId]);
 
   
   console.log(productHandles,productImages)
@@ -137,15 +83,12 @@ const Cart = () => {
             ) : (
             <div>
             <CartContext.Provider value={lineItems}>
-            <ImageContext.Provider value={productImages}>
-
-            {productImages.map((src) => (<img width="100%" src={src}/>))}
-            
             {lineItems.edges.map((item) => (
               <div>
-              {item.node.attributes.map((node) => (
                <InputGroup size="lg">
-                {JSON.stringify(node)}       
+                {JSON.stringify(item.node.attributes[0].key)}
+                <img width="200px" src={item.node.attributes[0].value} />
+                
                 <Button 
                 variant="outline-secondary" 
                 id="button-addon2"
@@ -162,11 +105,10 @@ const Cart = () => {
                 aria-label="Increment value"
                 // onClick={() => dispatch(increment())}
                 >+</Button>
-              </InputGroup> 
-               ))}      
-              </div>
-            ))}
-            </ImageContext.Provider>
+              </InputGroup>   
+        
+            </div>
+             ))}
             </CartContext.Provider>
             <Link to="/cart"><Button>Checkout</Button></Link>
             </div>
