@@ -13,7 +13,7 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart.cartid)
   const [cartId] = useState(cart);
   const [lineItems, setlineItems] = useState(null);
-  const [imageSrc, setimageSrc] = useState(null);
+  const [productImages, setproductImages] = useState(null);
   const [productHandles, setproductHandles] = useState([]);
   const CartContext = createContext(null);
   const ImageContext = createContext(null);
@@ -107,7 +107,6 @@ const Cart = () => {
             `
           }
       };
-
       const res = axios.request(options).then(response => {
         productimages.push(response.data.data.productByHandle.featuredImage.src);
       })
@@ -115,16 +114,18 @@ const Cart = () => {
       promises.push(res)
     });
     
-    Promise.all(promises).then(() => setimageSrc(productimages));
+    Promise.all(promises).then(() => setproductImages(productimages));
+
+
   }, [lineItems]); 
 
   
 
   useEffect(() => {
-  }, [productHandles, imageSrc]); 
+  }, [productHandles, productImages]); 
 
   
-  console.log(productHandles,imageSrc)
+  console.log(productHandles,productImages)
 
   return (
       <> 
@@ -137,19 +138,19 @@ const Cart = () => {
             ) : (
             <div>
             <CartContext.Provider value={lineItems}>
-            <ImageContext.Provider value={imageSrc}>
+            <ImageContext.Provider value={productImages}>
             {JSON.stringify(productHandles)}
-            {JSON.stringify(imageSrc)}
+            {JSON.stringify(productImages)}
         
             {lineItems.edges.map((item) => (
               <div>
               {item.node.attributes.map((node) => (
                <InputGroup size="lg">
-                {/* <img src={imageSrc} />{imageSrc} */}
+                {/* <img src={productImages} />{productImages} */}
                 {JSON.stringify(node)}
               
 
-                {/* {imageSrc.map((src) => (
+                {/* {productImages.map((src) => (
                   <>
                    {JSON.stringify(src)}
                    </>
