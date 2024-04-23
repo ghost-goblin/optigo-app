@@ -13,8 +13,6 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart.cartid)
   const [cartId] = useState(cart);
   const [lineItems, setlineItems] = useState(null);
-  const [productImages, setproductImages] = useState(null);
-  const [productHandles, setproductHandles] = useState([]);
   const CartContext = createContext(lineItems);
 
 
@@ -66,7 +64,7 @@ const Cart = () => {
           console.error(error);
         });
     }
-    
+
   }, [cartId]);
 
   
