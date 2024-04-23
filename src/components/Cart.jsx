@@ -13,11 +13,10 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart.cartid)
   const [cartId] = useState(cart);
   const [lineItems, setlineItems] = useState(null);
-  const [imageSrc, setimageSrc] = useState([]);
-  const [isLoading, setisLoading] = useState(null);
+  const [imageSrc, setimageSrc] = useState(null);
   const [productHandles, setproductHandles] = useState([]);
   const CartContext = createContext(null);
-  const ImageContext = createContext(imageSrc);
+  const ImageContext = createContext(null);
 
 
   useEffect(() => {
@@ -75,8 +74,9 @@ const Cart = () => {
 
 
   useEffect(() => {
-    let handles = []
-    let productimages = []
+    let handles = [];
+    let productimages = [];
+    let promises = [];
     if (lineItems) {
       lineItems.edges.forEach((edge) => {
         edge.node.attributes.forEach((atrribute) => {
@@ -84,7 +84,8 @@ const Cart = () => {
           handles.push(atrribute.key)
 
         })
-    })
+      })
+    } 
     setproductHandles(handles)
     productHandles.forEach((handle) => {
       const options = {
@@ -106,41 +107,25 @@ const Cart = () => {
             `
           }
       };
-      axios.request(options)
-        .then(function (response) {
-          console.log(response.data.data.productByHandle.featuredImage.src)
-          productimages.push(response.data.data.productByHandle.featuredImage.src)
-          console.log('productimages: '+productimages)
-          setimageSrc(productimages)
-        
-        })
-        .catch(function (error) {
-          console.error(error);
-        });
-        console.log('hehehehe '+imageSrc)
-    }) 
 
-
+      const res = axios.request(options).then(response => {
+        productimages.push(response.data.data.productByHandle.featuredImage.src);
+      })
+      .catch(err => console.log(err))
+      promises.push(res)
+    });
     
-
-   } 
-
-   
+    Promise.all(promises).then(() => setimageSrc(productimages));
   }, [lineItems]); 
 
   
+
   useEffect(() => {
-    setisLoading(imageSrc)  
-
-  }, [imageSrc]); 
-
-
-  
+  }, [productHandles, imageSrc]); 
 
   
   console.log(productHandles,imageSrc)
 
-  if (isLoading) {
   return (
       <> 
         <Navigator />  
@@ -152,7 +137,7 @@ const Cart = () => {
             ) : (
             <div>
             <CartContext.Provider value={lineItems}>
-            <ImageContext.Provider value={isLoading}>
+            <ImageContext.Provider value={imageSrc}>
             {JSON.stringify(productHandles)}
             {JSON.stringify(imageSrc)}
         
@@ -199,6 +184,5 @@ const Cart = () => {
       </>
     );
   };
-}
 
 export default Cart;
