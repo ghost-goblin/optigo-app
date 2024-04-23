@@ -15,8 +15,8 @@ const Cart = () => {
   const [lineItems, setlineItems] = useState(null);
   const [productImages, setproductImages] = useState(null);
   const [productHandles, setproductHandles] = useState([]);
-  const CartContext = createContext(null);
-  const ImageContext = createContext(null);
+  const CartContext = createContext(lineItems);
+  const ImageContext = createContext(productImages);
 
 
   useEffect(() => {
@@ -62,7 +62,6 @@ const Cart = () => {
         .then(function (response) {
           setlineItems(response.data.data.cart.lines)   
           console.log(response)
-          return response
         })
         .catch(function (error) {
           console.error(error);
@@ -85,7 +84,7 @@ const Cart = () => {
 
         })
       })
-    } 
+    }
     setproductHandles(handles)
     productHandles.forEach((handle) => {
       const options = {
