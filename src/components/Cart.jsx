@@ -138,24 +138,14 @@ const Cart = () => {
             <div>
             <CartContext.Provider value={lineItems}>
             <ImageContext.Provider value={productImages}>
-            {JSON.stringify(productHandles)}
-            {JSON.stringify(productImages)}
-        
+
+            {productImages.map((src) => (<img width="100%" src={src}/>))}
+            
             {lineItems.edges.map((item) => (
               <div>
               {item.node.attributes.map((node) => (
                <InputGroup size="lg">
-                {/* <img src={productImages} />{productImages} */}
-                {JSON.stringify(node)}
-              
-
-                {/* {productImages.map((src) => (
-                  <>
-                   {JSON.stringify(src)}
-                   </>
-                ))} */}
-
-               
+                {JSON.stringify(node)}       
                 <Button 
                 variant="outline-secondary" 
                 id="button-addon2"
