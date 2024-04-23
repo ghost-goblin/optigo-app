@@ -42,24 +42,32 @@ export const cartApi = createApi({
               },
             method: 'POST',
             data: {
-                query: `{
-                    cart(id: "${cartId}") {
-                      id
-                      totalQuantity
-                      lines(first: 10) {
-                        edges {
-                          node {
-                            attributes {
-                              key
-                              value
-                            }
-                            id
-                            quantity
+                query: ` 
+                {
+                  cart(id: "${cartId}") {
+                    id
+                    totalQuantity
+                    checkoutUrl
+                    cost {
+                      totalAmount {
+                        amount
+                        currencyCode
+                      }
+                    }
+                    lines(first: 10) {
+                      edges {
+                        node {
+                          attributes {
+                            key
+                            value
                           }
+                          id
+                          quantity
                         }
                       }
                     }
                   }
+                }
                 `
               }
             })

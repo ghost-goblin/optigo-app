@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import axios from 'axios';
+import { useQueryQuery  } from '../services/api/cart.js';
 
 
 const Cart = () => {
@@ -14,67 +15,72 @@ const Cart = () => {
   const [cartId] = useState(cart);
   const [lineItems, setlineItems] = useState(null);
   const CartContext = createContext(lineItems);
+  const { data, error, isLoading } = useQueryQuery(cartId);
+  console.log(data,error,isLoading);
 
-
-  useEffect(() => {
-    if (cartId) {
-      const options = {
-        method: 'POST',
-        url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Shopify-Storefront-Access-Token': `${process.env.REACT_APP_SHOPIFY_ACCESS_TOKEN}`,
-        },
-        data: {
-          query: `
-                {
-                  cart(id: "${cartId}") {
-                    id
-                    totalQuantity
-                    checkoutUrl
-                    cost {
-                      totalAmount {
-                        amount
-                        currencyCode
-                      }
+  const getCart = (cartId) => {
+    const options = {
+      method: 'POST',
+      url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Storefront-Access-Token': `${process.env.REACT_APP_SHOPIFY_ACCESS_TOKEN}`,
+      },
+      data: {
+        query: `
+              {
+                cart(id: "${cartId}") {
+                  id
+                  totalQuantity
+                  checkoutUrl
+                  cost {
+                    totalAmount {
+                      amount
+                      currencyCode
                     }
-                    lines(first: 10) {
-                      edges {
-                        node {
-                          attributes {
-                            key
-                            value
-                          }
-                          id
-                          quantity
+                  }
+                  lines(first: 10) {
+                    edges {
+                      node {
+                        attributes {
+                          key
+                          value
                         }
+                        id
+                        quantity
                       }
                     }
                   }
                 }
-             `
-          }
-      };
-      axios.request(options)
-        .then(function (response) {
-          setlineItems(response.data.data.cart.lines)   
-          console.log(response)
-        })
-        .catch(function (error) {
-          console.error(error);
-        });
-    }
+              }
+           `
+        }
+    };
+    axios.request(options)
+      .then(function (response) {
+        setlineItems(response.data.data.cart.lines)   
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
 
+
+  useEffect(() => {
+    if (cartId) {
+      getCart(cartId)     
+    }
   }, [cartId]);
 
   
-
+  
   return (
       <> 
         <Navigator />  
         {lineItems == null ? (
             <div>
-            <p>Whoops! So empty!</p>
+            <p>Wow! So empty!</p>
             <Link to="/" >Click here to go back</Link>
             </div>
             ) : (
