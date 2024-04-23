@@ -83,9 +83,10 @@ const Cart = () => {
             {lineItems.edges.map((item) => (
               <div>
                <InputGroup size="lg">
-                {JSON.stringify(item.node.attributes[0].key)}
+               <h3>{item.node.attributes[0].key}</h3>
+                <Link to={`/product/${item.node.attributes[0].key}`}>
                 <img width="200px" src={item.node.attributes[0].value} />
-                
+                </Link>           
                 <Button 
                 variant="outline-secondary" 
                 id="button-addon2"
