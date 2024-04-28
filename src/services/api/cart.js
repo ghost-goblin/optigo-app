@@ -57,6 +57,12 @@ export const cartApi = createApi({
                     lines(first: 10) {
                       edges {
                         node {
+                          merchandise {
+                            ... on ProductVariant {
+                              id
+                              title
+                            }
+                          }
                           attributes {
                             key
                             value

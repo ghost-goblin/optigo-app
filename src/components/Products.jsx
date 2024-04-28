@@ -10,7 +10,6 @@ import { useQueryQuery  } from '../services/api/products.js';
 
 
 const Products = () => {
-
   const { data, error, isLoading } = useQueryQuery();
   console.log(data,error,isLoading);
   

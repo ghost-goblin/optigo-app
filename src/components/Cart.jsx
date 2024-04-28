@@ -42,6 +42,12 @@ const Cart = () => {
                   lines(first: 10) {
                     edges {
                       node {
+                        merchandise {
+                          ... on ProductVariant {
+                            id
+                            title
+                          }
+                        }
                         attributes {
                           key
                           value
@@ -89,10 +95,11 @@ const Cart = () => {
             {lineItems.edges.map((item) => (
               <div>
                <InputGroup size="lg">
-               <h3>{item.node.attributes[0].key}</h3>
                 <Link to={`/product/${item.node.attributes[0].key}`}>
                 <img width="200px" src={item.node.attributes[0].value} />
-                </Link>           
+                </Link>
+                <h3>{item.node.attributes[0].key}</h3>
+                <p>{item.node.merchandise.title}</p>        
                 <Button 
                 variant="outline-secondary" 
                 id="button-addon2"

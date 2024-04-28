@@ -49,15 +49,29 @@ export const productApi = createApi({
                     handle
                     availableForSale
                     totalInventory
-                    images(first: 5) {
-                      nodes {
-                        src
-                      }
+                    featuredImage {
+                      src
                     }
-                    variants(first: 5) {
+                    variants(first: 1) {
                       edges {
                         node {
                           id
+                          title
+                          availableForSale
+                          price {
+                            amount
+                            currencyCode
+                          }
+                          product {
+                            options {
+                              values
+                              name
+                            }
+                          }
+                          selectedOptions {
+                            name
+                            value
+                          }
                         }
                       }
                     }
