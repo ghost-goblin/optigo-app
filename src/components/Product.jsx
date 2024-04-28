@@ -22,7 +22,6 @@ const Product = () => {
   const CartContext = createContext(null);
   const [totalItems, settotalItems] = useState(0);
   const [selectedOptions, setselectedOptions] = useState(null);
-  const [merchandiseId, setmerchandiseId] = useState(null);
   const [userError, setuserError] = useState(null);
   const [featuredImage, setfeaturedImage] = useState('');
   const { data, error, isLoading } = useQueryQuery(handle);
@@ -34,7 +33,7 @@ const Product = () => {
 
   
 
-const createCart = () => {
+const createCart = (merchandiseId) => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -92,14 +91,14 @@ const createCart = () => {
         });
     } else {
       console.log('Cart already created')
-      cartLinesAdd()
+      cartLinesAdd(merchandiseId)
     }
   
   };
 
 
 
-  const cartLinesAdd  = () => {
+  const cartLinesAdd  = (merchandiseId) => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -203,8 +202,8 @@ const createCart = () => {
     };
     axios.request(options)
       .then(function (response) {
-        setmerchandiseId(response.data.data.product.variantBySelectedOptions.id)
-        createCart();
+        // setmerchandiseId(response.data.data.product.variantBySelectedOptions.id)
+        createCart(response.data.data.product.variantBySelectedOptions.id);
         console.log(response)
 
       
@@ -227,7 +226,6 @@ const createCart = () => {
     if (data) {
       setfeaturedImage(data.data.product.featuredImage.src)
       setselectedOptions(data.data.product.variants.edges[0].node.selectedOptions)
-      setmerchandiseId(data.data.product.variants.edges[0].node.id)
     }
   }, [data]);
 
