@@ -22,7 +22,8 @@ const Product = () => {
   const CartContext = createContext(null);
   const [totalItems, settotalItems] = useState(0);
   const [selectedOptions, setselectedOptions] = useState(null);
-  // const [merchandiseId, setmerchandiseId] = useState(null);
+  const [merchandiseId, setmerchandiseId] = useState(null);
+  const [userError, setuserError] = useState(null);
   const [featuredImage, setfeaturedImage] = useState('');
   const { data, error, isLoading } = useQueryQuery(handle);
   console.log(data,error,isLoading);
@@ -33,7 +34,7 @@ const Product = () => {
 
   
 
-const createCart = (merchandiseId) => {
+const createCart = () => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -82,20 +83,23 @@ const createCart = (merchandiseId) => {
           console.log(response.data.data.cartCreate.cart.id+' Cart created!')
           console.log(response)
           dispatch((addcartid(response.data.data.cartCreate.cart.id)))
+          if (response.data.data.cartCreate.userErrors[0]) {
+            setuserError(response.data.data.cartLinesAdd.userErrors[0].message)
+          }
         })
         .catch(function (error) {
           console.error(error);
         });
     } else {
       console.log('Cart already created')
-      cartLinesAdd(merchandiseId)
+      cartLinesAdd()
     }
   
   };
 
 
 
-  const cartLinesAdd  = (merchandiseId) => {
+  const cartLinesAdd  = () => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -139,6 +143,11 @@ const createCart = (merchandiseId) => {
         .then(function (response) {
           settotalItems(response.data.data.cartLinesAdd.cart.totalQuantity)
           console.log(response)
+          if (response.data.data.cartLinesAdd.userErrors[0]) {
+            setuserError(response.data.data.cartLinesAdd.userErrors[0].message)
+          }
+          console.log(userError)
+          
         })
         .catch(function (error) {
           console.error(error);
@@ -194,9 +203,10 @@ const createCart = (merchandiseId) => {
     };
     axios.request(options)
       .then(function (response) {
-        // setmerchandiseId(response.data.data.product.variantBySelectedOptions.id)
-        createCart(response.data.data.product.variantBySelectedOptions.id);
+        setmerchandiseId(response.data.data.product.variantBySelectedOptions.id)
+        createCart();
         console.log(response)
+
       
       })
       .catch(function (error) {
@@ -217,9 +227,8 @@ const createCart = (merchandiseId) => {
     if (data) {
       setfeaturedImage(data.data.product.featuredImage.src)
       setselectedOptions(data.data.product.variants.edges[0].node.selectedOptions)
-  
+      setmerchandiseId(data.data.product.variants.edges[0].node.id)
     }
-
   }, [data]);
 
   
@@ -255,6 +264,12 @@ const createCart = (merchandiseId) => {
                 </label>
             
              ))}
+
+             {userError ? (
+                <div>{userError}</div>
+              ) : (
+                <div></div>
+              )}
           <Button type="submit">Add to Cart</Button>
           </form>
           <Link to="/cart"><Button>Review Order</Button></Link>
