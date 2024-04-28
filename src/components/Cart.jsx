@@ -14,6 +14,7 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart.cartid)
   const [cartId] = useState(cart);
   const [lineItems, setlineItems] = useState(null);
+  const [checkoutUrl, setcheckoutUrl] = useState(null);
   const CartContext = createContext(lineItems);
   const { data, error, isLoading } = useQueryQuery(cartId);
   console.log(data,error,isLoading);
@@ -64,7 +65,8 @@ const Cart = () => {
     };
     axios.request(options)
       .then(function (response) {
-        setlineItems(response.data.data.cart.lines)   
+        setlineItems(response.data.data.cart.lines)
+        setcheckoutUrl(response.data.data.cart.checkoutUrl) 
         console.log(response)
       })
       .catch(function (error) {
@@ -121,7 +123,7 @@ const Cart = () => {
             </div>
              ))}
             </CartContext.Provider>
-            <Link to="/cart"><Button>Checkout</Button></Link>
+            <Link to={checkoutUrl}><Button>Checkout</Button></Link>
             </div>
           )}
       </>
