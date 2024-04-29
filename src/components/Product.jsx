@@ -21,7 +21,6 @@ const Product = () => {
   const [loading, setLoading] = useState(true);
   const CartContext = createContext(null);
   const [totalItems, settotalItems] = useState(0);
-  const [selectedOptions, setselectedOptions] = useState(null);
   const [availableForSale, setavailableForSale] = useState(false);
   const [userError, setuserError] = useState(null);
   const [featuredImage, setfeaturedImage] = useState('');
@@ -170,8 +169,7 @@ const createCart = (merchandiseId) => {
       return selectedList
     };
 
-    setselectedOptions(selectOptions())
-    console.log("sel:"+selectedOptions)
+    console.log("sel:"+selectOptions())
     getVariantBySelectedOptions(selectOptions())
    
   };
@@ -225,10 +223,7 @@ const createCart = (merchandiseId) => {
     if (data) {
       setfeaturedImage(data.data.product.featuredImage.src)
       setavailableForSale(data.data.product.availableForSale)
-      const select = data.data.product.variants.edges[0].node.selectedOptions.map((opt) => `{name: "${opt.name}", value: "${opt.value}"}`)
-      setselectedOptions(select)
     }
-    console.log(selectedOptions)
   }, [data]);
 
   
