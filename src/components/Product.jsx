@@ -14,6 +14,7 @@ import { useQueryQuery  } from '../services/api/product.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { addcartid } from '../features/cart/cartSlice'
 import { Link } from "react-router-dom";
+import Form from 'react-bootstrap/Form';
 
 
 const Product = () => {
@@ -33,7 +34,7 @@ const Product = () => {
 
   
 
-const createCart = (merchandiseId) => {
+  const createCart = (merchandiseId) => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -85,6 +86,7 @@ const createCart = (merchandiseId) => {
             console.log(response.data.data.cartCreate.cart.id+' Cart created!')
             console.log(response)
             dispatch((addcartid(response.data.data.cartCreate.cart.id)))
+            setuserError(null)
           }
         })
         .catch(function (error) {
@@ -144,6 +146,7 @@ const createCart = (merchandiseId) => {
             setuserError(response.data.data.cartLinesAdd.userErrors[0].message)
           } else {
             settotalItems(response.data.data.cartLinesAdd.cart.totalQuantity)
+            setuserError(null)
             console.log(response)
           }
           
@@ -160,6 +163,7 @@ const createCart = (merchandiseId) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    console.log(event.target[0].name)
     const selectOptions = () => {
       let selectedList = [];
       for (let i = 0; i < inputs.length; i++) {
@@ -209,7 +213,6 @@ const createCart = (merchandiseId) => {
         console.error(error);
       });
   };
-  
 
 
 
@@ -247,16 +250,17 @@ const createCart = (merchandiseId) => {
 
           <h1>{data.data.product.title}</h1>
 
+
+         <Form.Group className="mb-3">
           <form method="post" onSubmit={handleSubmit}>         
           {data.data.product.variants.edges[0].node.product.options.map((option,index) => (         
-              <label key={option.name}>
-              {option.name}
-              <select name={option.name} index={index}>
+              <Form.Label>{option.name}
+              <Form.Select name={option.name} index={index}>
               {option.values.map((value,index) => (
                   <option key={value} index={index}>{value}</option>
                 ))}
-                </select>
-                </label>
+                </Form.Select>
+                </Form.Label>
             
              ))}
 
@@ -273,6 +277,7 @@ const createCart = (merchandiseId) => {
           )}
           <Button type="submit">Add to Cart</Button>
           </form>
+          </Form.Group>
           <Link to="/cart"><Button>Review Order</Button></Link>
           </Col>
         </Row>
