@@ -22,6 +22,7 @@ const Product = () => {
   const CartContext = createContext(null);
   const [totalItems, settotalItems] = useState(0);
   const [selectedOptions, setselectedOptions] = useState(null);
+  const [availableForSale, setavailableForSale] = useState(false);
   const [userError, setuserError] = useState(null);
   const [featuredImage, setfeaturedImage] = useState('');
   const { data, error, isLoading } = useQueryQuery(handle);
@@ -77,13 +78,14 @@ const createCart = (merchandiseId) => {
     if (cartId == null) {
       axios.request(options)
         .then(function (response) {
-          setcartId(response.data.data.cartCreate.cart.id)
-          settotalItems(response.data.data.cartCreate.cart.totalQuantity)
-          console.log(response.data.data.cartCreate.cart.id+' Cart created!')
-          console.log(response)
-          dispatch((addcartid(response.data.data.cartCreate.cart.id)))
           if (response.data.data.cartCreate.userErrors[0]) {
             setuserError(response.data.data.cartLinesAdd.userErrors[0].message)
+          } else {
+            setcartId(response.data.data.cartCreate.cart.id)
+            settotalItems(response.data.data.cartCreate.cart.totalQuantity)
+            console.log(response.data.data.cartCreate.cart.id+' Cart created!')
+            console.log(response)
+            dispatch((addcartid(response.data.data.cartCreate.cart.id)))
           }
         })
         .catch(function (error) {
@@ -92,8 +94,7 @@ const createCart = (merchandiseId) => {
     } else {
       console.log('Cart already created')
       cartLinesAdd(merchandiseId)
-    }
-  
+    } 
   };
 
 
@@ -140,12 +141,12 @@ const createCart = (merchandiseId) => {
     if (cartId) {
       axios.request(options)
         .then(function (response) {
-          settotalItems(response.data.data.cartLinesAdd.cart.totalQuantity)
-          console.log(response)
           if (response.data.data.cartLinesAdd.userErrors[0]) {
             setuserError(response.data.data.cartLinesAdd.userErrors[0].message)
+          } else {
+            settotalItems(response.data.data.cartLinesAdd.cart.totalQuantity)
+            console.log(response)
           }
-          console.log(userError)
           
         })
         .catch(function (error) {
@@ -177,7 +178,7 @@ const createCart = (merchandiseId) => {
 
 
   
-  const getVariantBySelectedOptions = (opt) => {
+  const getVariantBySelectedOptions = (option) => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -189,7 +190,7 @@ const createCart = (merchandiseId) => {
         query: `
               {
                 product(handle: "${handle}") {
-                  variantBySelectedOptions(selectedOptions: [${opt}]) {
+                  variantBySelectedOptions(selectedOptions: [${option}]) {
                     id
                     title
                     availableForSale
@@ -202,11 +203,9 @@ const createCart = (merchandiseId) => {
     };
     axios.request(options)
       .then(function (response) {
-        // setmerchandiseId(response.data.data.product.variantBySelectedOptions.id)
+        setavailableForSale(response.data.data.product.variantBySelectedOptions.availableForSale)
         createCart(response.data.data.product.variantBySelectedOptions.id);
-        console.log(response)
-
-      
+        console.log(response)     
       })
       .catch(function (error) {
         console.error(error);
@@ -225,8 +224,11 @@ const createCart = (merchandiseId) => {
   useEffect(() => {
     if (data) {
       setfeaturedImage(data.data.product.featuredImage.src)
-      setselectedOptions(data.data.product.variants.edges[0].node.selectedOptions)
+      setavailableForSale(data.data.product.availableForSale)
+      const select = data.data.product.variants.edges[0].node.selectedOptions.map((opt) => `{name: "${opt.name}", value: "${opt.value}"}`)
+      setselectedOptions(select)
     }
+    console.log(selectedOptions)
   }, [data]);
 
   
@@ -263,11 +265,17 @@ const createCart = (merchandiseId) => {
             
              ))}
 
-             {userError ? (
-                <div>{userError}</div>
-              ) : (
-                <div></div>
-              )}
+          {availableForSale ? (
+            <div></div>
+          ) : (
+            <div>Oh No! Not Available For Sale!</div>
+          )}
+
+          {userError ? (
+            <div>{userError}</div>
+          ) : (
+            <div></div>
+          )}
           <Button type="submit">Add to Cart</Button>
           </form>
           <Link to="/cart"><Button>Review Order</Button></Link>
