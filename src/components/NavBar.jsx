@@ -7,20 +7,24 @@ import logo from '../assets/logo.png';
 import { Link } from "react-router-dom";
 import { useEffect, createContext, useState } from "react";
 import axios from 'axios';
+import { useQueryQuery  } from '../services/api/info.js';
 import { useSelector, useDispatch } from 'react-redux';
-import { addcarttotalitem } from '../features/cart/cartSlice';
+import { addshopname } from '../features/shop/infoSlice.js';
+import { addcarttotalitem } from '../features/cart/cartSlice.js';
 
 
 
 
 const Navigator = () => {
   const [totalItems, settotalItems] = useState(0);
-  const shopname = useSelector((state) => state.shop.name);
   const cart = useSelector((state) => state.cart.cartid);
   const [cartId] = useState(cart);
   const carttotalitems = useSelector((state) => state.cart.totalitems);
   const CartContext = createContext(cart);
+  const { data, error, isLoading } = useQueryQuery();
+  const shopname = useSelector((state) => state.shop.name);
   const dispatch = useDispatch();
+  console.log(data, error, isLoading)
 
 
 
@@ -62,13 +66,20 @@ const Navigator = () => {
           settotalItems(response.data.data.cart.totalQuantity)
           dispatch((addcarttotalitem(response.data.data.cart.totalQuantity)))
           console.log(response)
-          return response
         })
         .catch(function (error) {
           console.error(error);
         }); 
     }
   }, [cartId, dispatch]);
+
+  
+
+  useEffect(() => {
+    if (data) {
+      dispatch(addshopname(data.data.shop.name));
+    }   
+  }, [data,dispatch]); 
 
 
   return (

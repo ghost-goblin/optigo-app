@@ -14,9 +14,6 @@ export const cartSlice = createSlice({
     addcarttotalitem: (state, action) => {
         state.totalitems = action.payload
       },
-    addlineitems: (state, action) => {
-        state.lineitem = action.payload
-      },
   },
 })
 
