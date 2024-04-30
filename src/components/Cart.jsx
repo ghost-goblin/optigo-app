@@ -42,7 +42,7 @@ const Cart = () => {
                       currencyCode
                     }
                   }
-                  lines(first: 10) {
+                  lines(first: 16) {
                     edges {
                       node {
                         merchandise {
@@ -174,8 +174,9 @@ const Cart = () => {
         
             </div>
              ))}
+             {userError}
+             {totalAmount}
             </CartContext.Provider>
-            {totalAmount}
             <Link to={checkoutUrl}><Button>Checkout</Button></Link>
             </div>
           )}

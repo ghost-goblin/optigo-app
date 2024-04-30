@@ -44,18 +44,6 @@ const Navigator = () => {
                     id
                     totalQuantity
                     checkoutUrl
-                    lines(first: 10) {
-                      edges {
-                        node {
-                          attributes {
-                            key
-                            value
-                          }
-                          id
-                          quantity
-                        }
-                      }
-                    }
                   }
                 }
                 `

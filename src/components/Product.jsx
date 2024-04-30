@@ -59,7 +59,6 @@ const Product = () => {
                   merchandiseId: "${merchandiseId}"
                 }
               ]
-              attributes: { key: "cart_key", value: "cart_value" }
             }
           ) {
             cart {
