@@ -13,10 +13,12 @@ import { useQueryQuery  } from '../services/api/cart.js';
 const Cart = () => {
   const cart = useSelector((state) => state.cart.cartid)
   const [cartId] = useState(cart);
+  const [totalAmount, settotalAmount] = useState(0);
   const [lineItems, setlineItems] = useState(null);
   const [checkoutUrl, setcheckoutUrl] = useState(null);
   const CartContext = createContext(lineItems);
   const { data, error, isLoading } = useQueryQuery(cartId);
+  const [userError, setuserError] = useState(null);
   console.log(data,error,isLoading);
 
   const getCart = (cartId) => {
@@ -67,11 +69,59 @@ const Cart = () => {
       .then(function (response) {
         setlineItems(response.data.data.cart.lines)
         setcheckoutUrl(response.data.data.cart.checkoutUrl) 
+        settotalAmount(response.data.data.cart.cost.totalAmount.amount)
         console.log(response)
       })
       .catch(function (error) {
         console.error(error);
       });
+  };
+
+
+
+  const cartLinesUpdate = (merchandiseId, itemQuantity, key, value) => {
+    const options = {
+      method: 'POST',
+      url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Storefront-Access-Token': `${process.env.REACT_APP_SHOPIFY_ACCESS_TOKEN}`,
+      },
+      data: {
+        query: `
+        mutation {
+          cartLinesUpdate(
+            cartId: "${cartId}"
+            lines: {
+              id: "${merchandiseId}"
+              quantity: ${itemQuantity - 1}
+              attributes: { key: "${key}", value: "${value}" }
+            }
+          ) {
+            userErrors {
+              field
+              message
+            }
+          }
+        }
+        `
+      }
+    };
+    if (cartId) {
+      axios.request(options)
+        .then(function (response) {
+          if (response.data.data.cartLinesUpdate.userErrors[0]) {
+            setuserError(response.data.data.cartLinesAdd.userErrors[0].message)
+          } else {
+            getCart(cartId)
+            console.log(response)
+          }
+         
+        })
+        .catch(function (error) {
+          console.error(error);
+        });    
+    };
   };
 
 
@@ -85,15 +135,17 @@ const Cart = () => {
   
   return (
       <> 
-        <Navigator />  
+        
         {lineItems == null ? (
             <div>
+            <Navigator />  
             <p>Wow! So empty!</p>
             <Link to="/" >Click here to go back</Link>
             </div>
             ) : (
             <div>
             <CartContext.Provider value={lineItems}>
+            <Navigator />  
             {lineItems.edges.map((item) => (
               <div>
                <InputGroup size="lg">
@@ -106,7 +158,7 @@ const Cart = () => {
                 variant="outline-secondary" 
                 id="button-addon2"
                 aria-label="Increment value"
-                // onClick={() => dispatch(decrement())}
+                onClick={() => cartLinesUpdate(item.node.id,item.node.quantity,item.node.attributes[0].key,item.node.attributes[0].value)}
                 >-</Button>
                 <Form.Control disabled placeholder={item.node.quantity}
                               aria-label="Cart Addon"
@@ -123,6 +175,7 @@ const Cart = () => {
             </div>
              ))}
             </CartContext.Provider>
+            {totalAmount}
             <Link to={checkoutUrl}><Button>Checkout</Button></Link>
             </div>
           )}

@@ -216,6 +216,16 @@ const Product = () => {
 
 
 
+
+  const handleChange = (event) => {
+    event.preventDefault()
+    console.log(event.target.name)
+    console.log(event.target.value)
+   
+  };
+
+
+
   useEffect(() => {
     setTimeout(() => setLoading(false), 5000)
   }, []);
@@ -226,7 +236,7 @@ const Product = () => {
     if (data) {
       if (data.data.product.featuredImage) {
         setfeaturedImage(data.data.product.featuredImage.src)
-    }
+      }
       setavailableForSale(data.data.product.availableForSale)
     }
   }, [data]);
@@ -255,7 +265,7 @@ const Product = () => {
           <form method="post" onSubmit={handleSubmit}>         
           {data.data.product.variants.edges[0].node.product.options.map((option,index) => (         
               <Form.Label>{option.name}
-              <Form.Select name={option.name} index={index}>
+              <Form.Select name={option.name} index={index} onChange={handleChange}>
               {option.values.map((value,index) => (
                   <option key={value} index={index}>{value}</option>
                 ))}

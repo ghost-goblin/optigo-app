@@ -12,7 +12,7 @@ export const cartSlice = createSlice({
       state.cartid = action.payload
     },
     addcarttotalitem: (state, action) => {
-        state.totalitems = action.payload
+      state.totalitems = action.payload
       },
   },
 })
