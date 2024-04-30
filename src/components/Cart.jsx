@@ -8,7 +8,6 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import axios from 'axios';
 import { useQueryQuery  } from '../services/api/cart.js';
-import glasses from "../assets/glasses.svg";
 
 
 const Cart = () => {
@@ -99,11 +98,7 @@ const Cart = () => {
               <div>
                <InputGroup size="lg">
                 <Link to={`/product/${item.node.attributes[0].key}`}>
-                {item.node.attributes[0].value == null ? (
-                <img width="200px" src={glasses} />
-                  ) : (
                 <img width="200px" src={item.node.attributes[0].value} />
-                   )}
                 </Link>
                 <h3>{item.node.attributes[0].key}</h3>
                 <p>{item.node.merchandise.title}</p>        

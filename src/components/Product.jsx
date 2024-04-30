@@ -24,7 +24,7 @@ const Product = () => {
   const [totalItems, settotalItems] = useState(0);
   const [availableForSale, setavailableForSale] = useState(false);
   const [userError, setuserError] = useState(null);
-  const [featuredImage, setfeaturedImage] = useState('');
+  const [featuredImage, setfeaturedImage] = useState(glasses);
   const { data, error, isLoading } = useQueryQuery(handle);
   console.log(data,error,isLoading);
   const cart = useSelector((state) => state.cart.cartid);
@@ -100,7 +100,7 @@ const Product = () => {
 
 
 
-  const cartLinesAdd  = (merchandiseId) => {
+  const cartLinesAdd = (merchandiseId) => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -224,7 +224,9 @@ const Product = () => {
 
   useEffect(() => {
     if (data) {
-      setfeaturedImage(data.data.product.featuredImage.src)
+      if (data.data.product.featuredImage) {
+        setfeaturedImage(data.data.product.featuredImage.src)
+    }
       setavailableForSale(data.data.product.availableForSale)
     }
   }, [data]);
@@ -240,11 +242,9 @@ const Product = () => {
         <Container>
         <Row>
           <Col>
-          {data.data.product.featuredImage == null ? (
-                <img width="100%" src={glasses} />
-              ) : (
-                <img width="100%" src={data.data.product.featuredImage.src} />
-          )}
+
+          <img width="100%" src={featuredImage} />
+
           </Col>
           <Col>
 
