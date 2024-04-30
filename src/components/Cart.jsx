@@ -79,7 +79,13 @@ const Cart = () => {
 
 
 
-  const cartLinesUpdate = (merchandiseId, itemQuantity, key, value) => {
+  const cartLinesUpdate = (event, merchandiseId, itemQuantity, key, value) => {
+    let quantity
+    if (event.target.value == '+') {
+      quantity = itemQuantity + 1
+    } else if (event.target.value == '-') {
+      quantity = itemQuantity - 1
+    }
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -94,7 +100,7 @@ const Cart = () => {
             cartId: "${cartId}"
             lines: {
               id: "${merchandiseId}"
-              quantity: ${itemQuantity - 1}
+              quantity: ${quantity}
               attributes: { key: "${key}", value: "${value}" }
             }
           ) {
@@ -155,20 +161,22 @@ const Cart = () => {
                 <h3>{item.node.attributes[0].key}</h3>
                 <p>{item.node.merchandise.title}</p>        
                 <Button 
+                value="-"
                 variant="outline-secondary" 
                 id="button-addon2"
                 aria-label="Increment value"
-                onClick={() => cartLinesUpdate(item.node.id,item.node.quantity,item.node.attributes[0].key,item.node.attributes[0].value)}
+                onClick={(event) => cartLinesUpdate(event,item.node.id,item.node.quantity,item.node.attributes[0].key,item.node.attributes[0].value)}
                 >-</Button>
                 <Form.Control disabled placeholder={item.node.quantity}
                               aria-label="Cart Addon"
                               aria-describedby="cart-addon"
                               />
-                <Button 
+                <Button
+                value="+"
                 variant="outline-secondary" 
                 id="button-addon2"
                 aria-label="Increment value"
-                // onClick={() => dispatch(increment())}
+                onClick={(event) => cartLinesUpdate(event,item.node.id,item.node.quantity,item.node.attributes[0].key,item.node.attributes[0].value)}
                 >+</Button>
               </InputGroup>   
         
