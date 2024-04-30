@@ -117,7 +117,7 @@ const Cart = () => {
       axios.request(options)
         .then(function (response) {
           if (response.data.data.cartLinesUpdate.userErrors[0]) {
-            setuserError(response.data.data.cartLinesAdd.userErrors[0].message)
+            setuserError(response.data.data.cartLinesUpdate.userErrors[0].message)
           } else {
             getCart(cartId)
             console.log(response)
