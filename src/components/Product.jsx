@@ -265,28 +265,29 @@ const Product = () => {
           <Col>
 
           <img width="100%" src={featuredImage} />
+          <p>{price}</p>
 
           </Col>
           <Col>
 
           <h1>{data.data.product.title}</h1>
 
-
-         <Form.Group className="mb-3">
-          <form method="post" onSubmit={handleSubmit}>         
-          {data.data.product.variants.edges[0].node.product.options.map((option,index) => (         
-              <Form.Label>{option.name}
-              <Form.Select name={option.name} index={index} onChange={handleChange}>
-              {option.values.map((value,index) => (
-                  <option key={value} index={index}>{value}</option>
-                ))}
-                </Form.Select>
-                </Form.Label>
-            
-             ))}
-
           {availableForSale ? (
-            <div></div>
+            <Form.Group className="mb-3">
+            <form method="post" onSubmit={handleSubmit}>         
+            {data.data.product.variants.edges[0].node.product.options.map((option,index) => (         
+                <Form.Label>{option.name}
+                <Form.Select name={option.name} index={index} onChange={handleChange}>
+                {option.values.map((value,index) => (
+                    <option key={value} index={index}>{value}</option>
+                  ))}
+                  </Form.Select>
+                  </Form.Label>
+              
+               ))}
+               <Button type="submit">Add to Cart</Button>
+            </form>
+            </Form.Group>
           ) : (
             <div>Oh No! Not Available For Sale!</div>
           )}
@@ -296,10 +297,7 @@ const Product = () => {
           ) : (
             <div></div>
           )}
-          <Button type="submit">Add to Cart</Button>
-          </form>
-          </Form.Group>
-          <p>{price}</p>
+          
           <Link to="/cart"><Button>Review Order</Button></Link>
           </Col>
         </Row>
