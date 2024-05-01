@@ -74,9 +74,10 @@ const Navigator = () => {
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
       <CartContext.Provider value={totalItems}>
-        <div>
+      <div>
       <Link to="/"><Navbar.Brand><img src={logo} height="25px" alt="icon" />{shopname}</Navbar.Brand></Link>
-      <Link to="/cart"><Navbar.Text><Cart /></Navbar.Text><Badge bg="secondary">{carttotalitems == 0 ? ('') : (carttotalitems)}</Badge></Link>
+      <Badge pill bg="warning">{carttotalitems == 0 ? ('0') : (carttotalitems)}</Badge>
+      <Link to="/cart"><Navbar.Text><Cart /></Navbar.Text></Link>
       </div>  
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
