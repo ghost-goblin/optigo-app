@@ -120,6 +120,7 @@ const Cart = () => {
             setuserError(response.data.data.cartLinesUpdate.userErrors[0].message)
           } else {
             getCart(cartId)
+            setuserError(null)
             console.log(response)
           }
          

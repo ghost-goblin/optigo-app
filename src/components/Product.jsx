@@ -23,18 +23,20 @@ const Product = () => {
   const CartContext = createContext(null);
   const [totalItems, settotalItems] = useState(0);
   const [availableForSale, setavailableForSale] = useState(false);
+  const [price, setPrice] = useState(0);
   const [userError, setuserError] = useState(null);
+  const [selectedOptions, setselectedOptions] = useState(null);
+  const [merchandiseId, setmerchandiseId] = useState(null);
   const [featuredImage, setfeaturedImage] = useState(glasses);
   const { data, error, isLoading } = useQueryQuery(handle);
   console.log(data,error,isLoading);
   const cart = useSelector((state) => state.cart.cartid);
   const [cartId, setcartId] = useState(cart);
   const dispatch = useDispatch();
-  const inputs = document.getElementsByTagName('label')
 
   
 
-  const createCart = (merchandiseId) => {
+  const createCart = () => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -78,7 +80,7 @@ const Product = () => {
       axios.request(options)
         .then(function (response) {
           if (response.data.data.cartCreate.userErrors[0]) {
-            setuserError(response.data.data.cartLinesAdd.userErrors[0].message)
+            setuserError(response.data.data.cartCreate.userErrors[0].message)
           } else {
             setcartId(response.data.data.cartCreate.cart.id)
             settotalItems(response.data.data.cartCreate.cart.totalQuantity)
@@ -93,13 +95,13 @@ const Product = () => {
         });
     } else {
       console.log('Cart already created')
-      cartLinesAdd(merchandiseId)
+      cartLinesAdd()
     } 
   };
 
 
 
-  const cartLinesAdd = (merchandiseId) => {
+  const cartLinesAdd = () => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -158,28 +160,38 @@ const Product = () => {
 
 
 
-
-
-  const handleSubmit = (event) => {
+  const handleChange = (event) => {
     event.preventDefault()
-    console.log(event.target[0].name)
     const selectOptions = () => {
       let selectedList = [];
-      for (let i = 0; i < inputs.length; i++) {
-          let option = `{name: "${event.target[i].name}", value: "${event.target[i].value}"}`
-          selectedList.push(option)
+      let option
+      for (let i = 0; i < selectedOptions.length; i++) {
+        if (selectedOptions[i].name == event.target.name) {
+          option = {name: selectedOptions[i].name, value: event.target.value}
+        } else {
+          option = {name: selectedOptions[i].name, value: selectedOptions[i].value}
+        }
+        selectedList.push(option)
       };
       return selectedList
     };
+    const alloptions = selectOptions()
+    setselectedOptions(alloptions)
+    const options = alloptions.map((opt) => `{name: "${opt.name}", value: "${opt.value}"}`)
+    getVariantBySelectedOptions(options)
+   
+  };
 
-    console.log("sel:"+selectOptions())
-    getVariantBySelectedOptions(selectOptions())
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    createCart();
    
   };
 
 
   
-  const getVariantBySelectedOptions = (option) => {
+  const getVariantBySelectedOptions = (selectedoptions) => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -191,10 +203,15 @@ const Product = () => {
         query: `
               {
                 product(handle: "${handle}") {
-                  variantBySelectedOptions(selectedOptions: [${option}]) {
+                  variantBySelectedOptions(selectedOptions: [${selectedoptions}]) {
                     id
                     title
                     availableForSale
+                    quantityAvailable
+                    price {
+                      amount
+                      currencyCode
+                    }
                   }
                 }
               }
@@ -204,8 +221,8 @@ const Product = () => {
     };
     axios.request(options)
       .then(function (response) {
-        setavailableForSale(response.data.data.product.variantBySelectedOptions.availableForSale)
-        createCart(response.data.data.product.variantBySelectedOptions.id);
+        setmerchandiseId(response.data.data.product.variantBySelectedOptions.id)
+        setPrice(response.data.data.product.variantBySelectedOptions.price.amount)
         console.log(response)     
       })
       .catch(function (error) {
@@ -214,14 +231,6 @@ const Product = () => {
   };
 
 
-
-
-  const handleChange = (event) => {
-    event.preventDefault()
-    console.log(event.target.name)
-    console.log(event.target.value)
-   
-  };
 
 
 
@@ -237,6 +246,9 @@ const Product = () => {
         setfeaturedImage(data.data.product.featuredImage.src)
       }
       setavailableForSale(data.data.product.availableForSale)
+      setselectedOptions(data.data.product.variants.edges[0].node.selectedOptions)
+      setmerchandiseId(data.data.product.variants.edges[0].node.id)
+      setPrice(data.data.product.variants.edges[0].node.price.amount)
     }
   }, [data]);
 
@@ -287,6 +299,7 @@ const Product = () => {
           <Button type="submit">Add to Cart</Button>
           </form>
           </Form.Group>
+          <p>{price}</p>
           <Link to="/cart"><Button>Review Order</Button></Link>
           </Col>
         </Row>
