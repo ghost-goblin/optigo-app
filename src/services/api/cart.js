@@ -69,6 +69,20 @@ export const cartApi = createApi({
                           }
                           id
                           quantity
+                          cost {
+                            amountPerQuantity {
+                              amount
+                              currencyCode
+                            }
+                            subtotalAmount {
+                              amount
+                              currencyCode
+                            }
+                            totalAmount {
+                              amount
+                              currencyCode
+                            }
+                          }
                         }
                       }
                     }

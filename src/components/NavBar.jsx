@@ -11,7 +11,7 @@ import { useQueryQuery  } from '../services/api/info.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { addshopname } from '../features/shop/infoSlice.js';
 import { addcarttotalitem } from '../features/cart/cartSlice.js';
-
+import Badge from 'react-bootstrap/Badge';
 
 
 
@@ -74,20 +74,16 @@ const Navigator = () => {
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
       <CartContext.Provider value={totalItems}>
-        <Link to="/cart">
-      {carttotalitems == null ? ('') : (carttotalitems)}
-        <Cart /></Link>
-      <Link to="/">
-      <Navbar.Brand><img src={logo} height="25px" alt="icon" />
-      {shopname}
-      </Navbar.Brand>
-      </Link>    
+        <div>
+      <Link to="/"><Navbar.Brand><img src={logo} height="25px" alt="icon" />{shopname}</Navbar.Brand></Link>
+      <Link to="/cart"><Navbar.Text><Cart /></Navbar.Text><Badge bg="secondary">{carttotalitems == 0 ? ('') : (carttotalitems)}</Badge></Link>
+      </div>  
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link><Link to="/products">Shop</Link></Nav.Link>
-            <Nav.Link><Link to="/">About</Link></Nav.Link>
-            <Nav.Link><Link to="/">Contact</Link></Nav.Link>
+            <Link to="/products"><Nav.Link>Shop</Nav.Link></Link>
+            <Link to="/"><Nav.Link>About</Nav.Link></Link>
+            <Link to="/"><Nav.Link>Contact</Nav.Link></Link>
           </Nav>
         
         </Navbar.Collapse>

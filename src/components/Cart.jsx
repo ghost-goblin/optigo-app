@@ -57,6 +57,20 @@ const Cart = () => {
                         }
                         id
                         quantity
+                        cost {
+                          amountPerQuantity {
+                            amount
+                            currencyCode
+                          }
+                          subtotalAmount {
+                            amount
+                            currencyCode
+                          }
+                          totalAmount {
+                            amount
+                            currencyCode
+                          }
+                        }
                       }
                     }
                   }
@@ -159,8 +173,8 @@ const Cart = () => {
                 <Link to={`/product/${item.node.attributes[0].key}`}>
                 <img width="200px" src={item.node.attributes[0].value} />
                 </Link>
-                <h3>{item.node.attributes[0].key}</h3>
-                <p>{item.node.merchandise.title}</p>        
+                <h3>{item.node.attributes[0].key} | {item.node.cost.amountPerQuantity.amount}</h3>
+                <p>{item.node.merchandise.title}</p> 
                 <Button 
                 value="-"
                 variant="outline-secondary" 
