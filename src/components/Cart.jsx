@@ -10,6 +10,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import axios from 'axios';
 import { useQueryQuery  } from '../services/api/cart.js';
 import Image from 'react-bootstrap/Image';
+import Container from 'react-bootstrap/Container';
 
 
 const Cart = () => {
@@ -161,9 +162,11 @@ const Cart = () => {
         
         {lineItems == null ? (
             <div>
-            <Navigator />  
+            <Navigator />
+            <Container>
             <p>Wow! So empty!</p>
             <Link to="/" >Click here to go back</Link>
+            </Container>
             <Footer />
             </div>
             ) : (
@@ -171,7 +174,7 @@ const Cart = () => {
             <CartContext.Provider value={lineItems}>
             <Navigator />  
             {lineItems.edges.map((item) => (
-              <div>
+                <Container>
                <InputGroup size="lg">
                 <Link to={`/product/${item.node.attributes[0].key}`}>
                 <Image width='200px' src={item.node.attributes[0].value} thumbnail />
@@ -197,13 +200,14 @@ const Cart = () => {
                 onClick={(event) => cartLinesUpdate(event,item.node.id,item.node.quantity,item.node.attributes[0].key,item.node.attributes[0].value)}
                 >+</Button>
               </InputGroup>   
-        
-            </div>
+              </Container>
              ))}
+             <Container>
              {userError}
-             {totalAmount}
-            </CartContext.Provider>
+             {totalAmount}       
             <Link to={checkoutUrl}><Button>Checkout</Button></Link>
+            </Container>
+            </CartContext.Provider>
             <Footer />
             </div>
           )}
