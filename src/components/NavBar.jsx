@@ -76,7 +76,7 @@ const Navigator = () => {
       <CartContext.Provider value={totalItems}>
       <div>
       <Link to="/"><Navbar.Brand><img src={logo} height="25px" alt="icon" />{shopname}</Navbar.Brand></Link>
-      <Badge pill bg="warning">{carttotalitems == 0 ? ('0') : (carttotalitems)}</Badge>
+      <Badge pill bg="warning">{carttotalitems === 0 ? ('0') : (carttotalitems)}</Badge>
       <Link to="/cart"><Navbar.Text><Cart /></Navbar.Text></Link>
       </div>  
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

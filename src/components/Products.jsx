@@ -15,8 +15,8 @@ const Products = () => {
   
   if (data) {
     return (
-      <div className="App">
-      <h1>Check out our Stuff</h1>
+      <div>
+      <h1>Check out our Shop</h1>
       <Row xs={1} md={3} className="g-4">
             {data.data.products.edges.map((item) => (
           <Col key={item.node.id}>

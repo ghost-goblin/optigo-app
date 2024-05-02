@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import { Outlet, Link } from "react-router-dom";
 import Spinner from 'react-bootstrap/Spinner';
 import ErrorPage from "./ErrorPage.jsx";
+import Footer from './Footer.jsx';
 import glasses from "../assets/glasses.svg";
 import Navigator from './NavBar.jsx';
 import { useQueryQuery  } from '../services/api/shop.js';
@@ -39,7 +40,8 @@ if (data) {
         </Col>
       ))}
     </Row>  
-    <Outlet />  
+    <Outlet />
+    <Footer />
     </div>
   )} catch(e) {
     console.log(e)
@@ -51,11 +53,14 @@ if (data) {
   <Spinner animation="border" role="status">
   <span className="visually-hidden">Loading...</span>
    </Spinner>
+   <Footer />
     </div>
  }
 if (error) {
 return <div>
+  <Navigator />
  <ErrorPage />
+ <Footer />
   </div>
 }
 };

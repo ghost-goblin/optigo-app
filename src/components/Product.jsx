@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
 import Navigator from './NavBar.jsx';
+import Footer from './Footer.jsx';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -15,6 +16,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addcartid } from '../features/cart/cartSlice'
 import { Link } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
+import Image from 'react-bootstrap/Image';
 
 
 const Product = () => {
@@ -166,7 +168,7 @@ const Product = () => {
       let selectedList = [];
       let option
       for (let i = 0; i < selectedOptions.length; i++) {
-        if (selectedOptions[i].name == event.target.name) {
+        if (selectedOptions[i].name === event.target.name) {
           option = {name: selectedOptions[i].name, value: event.target.value}
         } else {
           option = {name: selectedOptions[i].name, value: selectedOptions[i].value}
@@ -263,8 +265,7 @@ const Product = () => {
         <Container>
         <Row>
           <Col>
-
-          <img width="100%" src={featuredImage} />
+          <Image src={featuredImage} fluid />
           <p>{price}</p>
 
           </Col>
@@ -302,6 +303,7 @@ const Product = () => {
           </Col>
         </Row>
         </Container>
+        <Footer />
       </div>
     )} catch(e) {
       console.log(e)
@@ -315,6 +317,7 @@ const Product = () => {
         <Spinner animation="border" role="status">
         <span className="visually-hidden">Loading...</span>
         </Spinner>
+        <Footer />
         </>
       )}
       </div>

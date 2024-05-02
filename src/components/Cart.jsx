@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import Navigator from './NavBar.jsx';
+import Footer from './Footer.jsx';
 import { useSelector } from 'react-redux';
 import { useState, useEffect, createContext } from "react";
 import Button from 'react-bootstrap/Button';
@@ -8,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import axios from 'axios';
 import { useQueryQuery  } from '../services/api/cart.js';
+import Image from 'react-bootstrap/Image';
 
 
 const Cart = () => {
@@ -95,9 +97,9 @@ const Cart = () => {
 
   const cartLinesUpdate = (event, merchandiseId, itemQuantity, key, value) => {
     let quantity
-    if (event.target.value == '+') {
+    if (event.target.value === '+') {
       quantity = itemQuantity + 1
-    } else if (event.target.value == '-') {
+    } else if (event.target.value ==='-') {
       quantity = itemQuantity - 1
     }
     const options = {
@@ -162,6 +164,7 @@ const Cart = () => {
             <Navigator />  
             <p>Wow! So empty!</p>
             <Link to="/" >Click here to go back</Link>
+            <Footer />
             </div>
             ) : (
             <div>
@@ -171,7 +174,7 @@ const Cart = () => {
               <div>
                <InputGroup size="lg">
                 <Link to={`/product/${item.node.attributes[0].key}`}>
-                <img width="200px" src={item.node.attributes[0].value} />
+                <Image width='200px' src={item.node.attributes[0].value} thumbnail />
                 </Link>
                 <h3>{item.node.attributes[0].key} | {item.node.cost.amountPerQuantity.amount}</h3>
                 <p>{item.node.merchandise.title}</p> 
@@ -201,6 +204,7 @@ const Cart = () => {
              {totalAmount}
             </CartContext.Provider>
             <Link to={checkoutUrl}><Button>Checkout</Button></Link>
+            <Footer />
             </div>
           )}
       </>
