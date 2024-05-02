@@ -1,4 +1,5 @@
 import React from 'react';
+import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -22,6 +23,7 @@ const Products = () => {
     return (
       <div className="App">
       <Navigator />
+      <Container>
       <Row xs={1} md={3} className="g-4">
             {data.data.products.edges.map((item) => (
           <Col key={item.node.id}>
@@ -39,6 +41,7 @@ const Products = () => {
           </Col>
         ))}
       </Row>  
+      </Container>
       <Outlet />
       <Footer />
       </div>
@@ -49,9 +52,11 @@ const Products = () => {
   if (isLoading) {
     return <div>
     <Navigator />
+    <Container>
     <Spinner animation="border" role="status">
     <span className="visually-hidden">Loading...</span>
     </Spinner>
+    </Container>
     <Footer />
     </div>
   }

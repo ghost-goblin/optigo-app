@@ -244,15 +244,19 @@ const Product = () => {
 
   useEffect(() => {
     if (data) {
-      if (data.data.product.featuredImage) {
-        setfeaturedImage(data.data.product.featuredImage.src)
-      }
-      setavailableForSale(data.data.product.availableForSale)
-      setselectedOptions(data.data.product.variants.edges[0].node.selectedOptions)
-      setmerchandiseId(data.data.product.variants.edges[0].node.id)
-      setPrice(data.data.product.variants.edges[0].node.price.amount)
-    }
-  }, [data]);
+      if (data.data.product) {
+        if (data.data.product.featuredImage) {
+          setfeaturedImage(data.data.product.featuredImage.src) 
+        }   
+        setavailableForSale(data.data.product.availableForSale)
+        setselectedOptions(data.data.product.variants.edges[0].node.selectedOptions)
+        setmerchandiseId(data.data.product.variants.edges[0].node.id)
+        setPrice(data.data.product.variants.edges[0].node.price.amount)
+      };
+  
+    };
+
+  }, [data, handle]);
 
   
   if (data) {
@@ -266,12 +270,20 @@ const Product = () => {
         <Row>
           <Col>
           <Image src={featuredImage} fluid />
-          <p>{price}</p>
+
+          {userError ? (
+            <div>{userError}</div>
+          ) : (
+            <div></div>
+          )}
+          
+          
 
           </Col>
           <Col>
 
           <h1>{data.data.product.title}</h1>
+          <h3>{price}</h3>
 
           {availableForSale ? (
             <Form.Group className="mb-3">
@@ -310,15 +322,21 @@ const Product = () => {
     }
   } return <div>
     {loading === false ? (
+    <div>
+    <Navigator />
     <ErrorPage />
+    <Footer />
+    </div>
       ) : (
-        <>
+        <div>
         <Navigator />
+        <Container>
         <Spinner animation="border" role="status">
         <span className="visually-hidden">Loading...</span>
         </Spinner>
+        </Container>
         <Footer />
-        </>
+        </div>
       )}
       </div>
 };

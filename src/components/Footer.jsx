@@ -31,7 +31,7 @@ const Footer = () => {
             <Col>About</Col>
             <Col>Shop</Col>
             <Col>Contact</Col>
-            <Col>Etsy</Col>
+            <Col>👜 Our Etsy Store</Col>
             <Col><Image width='80px' src={PhoneSticker} fluid /></Col>
         </Row>
         <Row>

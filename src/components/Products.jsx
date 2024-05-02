@@ -5,6 +5,7 @@ import { Outlet, Link } from "react-router-dom";
 import ErrorPage from "./ErrorPage.jsx";
 import glasses from "../assets/glasses.svg";
 import Spinner from 'react-bootstrap/Spinner';
+import Container from 'react-bootstrap/Container';
 import { useQueryQuery  } from '../services/api/products.js';
 
 
@@ -16,6 +17,7 @@ const Products = () => {
   if (data) {
     return (
       <div>
+      <Container>
       <Row>
       <Col style={{textAlign:'left'}}><h3>Try the new collections</h3></Col>
       <Col style={{textAlign:'right'}}><small class="text-muted">Browse All</small></Col>
@@ -34,14 +36,17 @@ const Products = () => {
         ))}
       </Row>  
       <Outlet />  
+      </Container>
       </div>
     )
   } 
   if (isLoading) {
     return <div>
+    <Container>
     <Spinner animation="border" role="status">
     <span className="visually-hidden">Loading...</span>
      </Spinner>
+     </Container>
       </div>
    }
   if (error) {

@@ -26,17 +26,17 @@ const AboutPage = () => {
         <Col sm style={{textAlign:'left'}}>
           <Image src={MagnifyingGlassSticker} fluid /><br />
           <h2>1. Choose a frame style</h2><br />
-          <p>Choose a collection from multiple styles and themes made by artists around the world.</p>
+          <p>Choose from a collection of multiple styles, shades and colours.</p>
         </Col>
         <Col sm style={{textAlign:'left'}}>
           <Image src={BalanceSticker} fluid /><br />
-          <h2>2. Customize your lens prescription</h2><br />
-          <p>Play around with the variations until you create the art that tells your story.</p>
+          <h2>2. Customise your lens prescription</h2><br />
+          <p>Add your prescription lens variation and create the pair of glasses that tells your story.</p>
         </Col>
         <Col sm style={{textAlign:'left'}}>
           <Image src={BoxSticker} fluid /><br />
           <h2>3. Get it delivered</h2><br />
-          <p>Download a PNG or SVG of your creation and use it on your web app, presentation, or any project you want to bring to life.</p>
+          <p>We deliver your new glasses to your home, so you don't have to move a muscle.</p>
         </Col>
       </Row>
     </Container>
