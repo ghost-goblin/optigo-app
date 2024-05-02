@@ -17,52 +17,51 @@ const Products = () => {
   console.log(data,error,isLoading);
   
 
-
-if (data) {
-  try {
-  return (
-    <div className="App">
+  if (data) {
+    try {
+    return (
+      <div className="App">
+      <Navigator />
+      <Row xs={1} md={3} className="g-4">
+            {data.data.products.edges.map((item) => (
+          <Col key={item.node.id}>
+            <Card>
+              {item.node.featuredImage == null ? (
+                <Link to={`/product/${item.node.handle}` }><Card.Img variant="top" src={glasses} /></Link>
+              ) : (
+                <Link to={`/product/${item.node.handle}`}><Card.Img variant="top" src={item.node.featuredImage.src} /></Link>
+              )}
+              <Card.Body>
+                <Card.Title>{item.node.title}</Card.Title>
+                <Card.Text>{item.node.variants.nodes[0].price.amount}</Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>  
+      <Outlet />
+      <Footer />
+      </div>
+    )} catch(e) {
+      console.log(e)
+    }
+  } 
+  if (isLoading) {
+    return <div>
     <Navigator />
-     <Row xs={1} md={3} className="g-4">
-          {data.data.products.edges.map((item) => (
-        <Col key={item.node.id}>
-          <Card>
-            {item.node.featuredImage == null ? (
-              <Link to={`/product/${item.node.handle}` }><Card.Img variant="top" src={glasses} /></Link>
-            ) : (
-              <Link to={`/product/${item.node.handle}`}><Card.Img variant="top" src={item.node.featuredImage.src} /></Link>
-            )}
-            <Card.Body>
-              <Card.Title>{item.node.title}</Card.Title>
-              <Card.Text>{item.node.variants.nodes[0].price.amount}</Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-      ))}
-    </Row>  
-    <Outlet />
+    <Spinner animation="border" role="status">
+    <span className="visually-hidden">Loading...</span>
+    </Spinner>
     <Footer />
     </div>
-  )} catch(e) {
-    console.log(e)
   }
- } 
- if (isLoading) {
+  if (error) {
   return <div>
-  <Navigator />
-  <Spinner animation="border" role="status">
-  <span className="visually-hidden">Loading...</span>
-   </Spinner>
-   <Footer />
+    <Navigator />
+    <ErrorPage />
+    <Footer />
     </div>
- }
-if (error) {
-return <div>
-  <Navigator />
- <ErrorPage />
- <Footer />
-  </div>
-}
+  }
 };
 
 export default Products;

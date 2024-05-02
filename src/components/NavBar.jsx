@@ -71,6 +71,7 @@ const Navigator = () => {
 
 
   return (
+    <div style={{width:'100%'}}>
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
       <CartContext.Provider value={totalItems}>
@@ -91,6 +92,7 @@ const Navigator = () => {
         </CartContext.Provider>
       </Container>
     </Navbar>
+    </div>
   );
 }
 
