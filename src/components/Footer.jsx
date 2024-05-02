@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { useQueryQuery  } from '../services/api/info.js';
 import { useSelector } from 'react-redux';
 import Container from 'react-bootstrap/Container';
@@ -23,15 +24,15 @@ const Footer = () => {
         <Container>
         <Row style={{padding:'1rem'}}>
             <Col sm><b>{shopname}</b></Col>
-            <Col sm><Instagram /></Col>
-            <Col sm><Facebook /></Col>
-            <Col sm><Twitter /></Col>
+            <Col sm><Link to='https://www.instagram.com/optigomobileoptics' target='_blank' rel='noopener noreferrer'><Instagram /></Link></Col>
+            <Col sm><Link to='https://www.facebook.com/optigomobileoptics' target='_blank' rel='noopener noreferrer'><Facebook /></Link></Col>
+            <Col sm><Link to='https://www.twitter.com/optigomobileoptics' target='_blank' rel='noopener noreferrer'><Twitter /></Link></Col>
         </Row>
         <Row style={{padding:'1rem'}}>
             <Col>About</Col>
             <Col>Shop</Col>
             <Col>Contact</Col>
-            <Col>👜 Our Etsy Store</Col>
+            <Col><Link to='https://speckleeyewear.etsy.com' target='_blank' rel='noopener noreferrer'>👜 Our Etsy Store</Link></Col>
             <Col><Image width='80px' src={PhoneSticker} fluid /></Col>
         </Row>
         <Row>
