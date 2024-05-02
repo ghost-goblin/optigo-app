@@ -271,21 +271,10 @@ const Product = () => {
         <Row>
           <Col>
           <Image src={featuredImage} fluid />
-
-          {userError ? (
-            <div>{userError}</div>
-          ) : (
-            <div></div>
-          )}
-          
-          
-
           </Col>
           <Col>
-
           <h1>{data.data.product.title}</h1>
           <h3>{moneyFormat.replace('{{amount}}', price+'0')}</h3>
-
           {availableForSale ? (
             <Form.Group className="mb-3">
             <form method="post" onSubmit={handleSubmit}>         
@@ -299,20 +288,16 @@ const Product = () => {
                   </Form.Label>
               
                ))}
-               <Button type="submit">Add to Cart</Button>
+               <p>{userError ? (<div>{userError}</div>) : (<div></div>)}</p>
+              <Button type="submit">Add to Cart</Button>
+              <Link to="/cart"><Button>Review Order</Button></Link>
             </form>
             </Form.Group>
-          ) : (
+            ) : (
+            <Container>
             <div>😢 Oh No! Not Available For Sale!</div>
+            </Container>
           )}
-
-          {userError ? (
-            <div>{userError}</div>
-          ) : (
-            <div></div>
-          )}
-          
-          <Link to="/cart"><Button>Review Order</Button></Link>
           </Col>
         </Row>
         </Container>
