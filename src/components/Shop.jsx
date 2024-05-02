@@ -9,11 +9,13 @@ import ErrorPage from "./ErrorPage.jsx";
 import Footer from './Footer.jsx';
 import glasses from "../assets/glasses.svg";
 import Navigator from './NavBar.jsx';
+import { useSelector } from 'react-redux';
 import { useQueryQuery  } from '../services/api/shop.js';
 
 
 
 const Products = () => {
+  const moneyFormat = useSelector((state) => state.shop.money)
   const { data, error, isLoading } = useQueryQuery();
   console.log(data,error,isLoading);
   
@@ -35,7 +37,7 @@ const Products = () => {
               )}
               <Card.Body>
                 <Card.Title>{item.node.title}</Card.Title>
-                <Card.Text>{item.node.variants.nodes[0].price.amount}</Card.Text>
+                <Card.Text>{moneyFormat.replace('{{amount}}', item.node.variants.nodes[0].price.amount+'0')}</Card.Text>
               </Card.Body>
             </Card>
           </Col>

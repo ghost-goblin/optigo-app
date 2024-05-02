@@ -11,10 +11,13 @@ export const shopSlice = createSlice({
     addshopname: (state, action) => {
       state.name = action.payload
     },
+    addmoneyformat: (state, action) => {
+      state.money = action.payload
+    },
   },
 })
 
 
-export const { addshopname } = shopSlice.actions
+export const { addshopname, addmoneyformat } = shopSlice.actions
 
 export default shopSlice.reducer

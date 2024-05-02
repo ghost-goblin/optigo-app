@@ -11,10 +11,13 @@ import axios from 'axios';
 import { useQueryQuery  } from '../services/api/cart.js';
 import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart.cartid)
+  const moneyFormat = useSelector((state) => state.shop.money)
   const [cartId] = useState(cart);
   const [totalAmount, settotalAmount] = useState(0);
   const [lineItems, setlineItems] = useState(null);
@@ -175,37 +178,50 @@ const Cart = () => {
             <Navigator />  
             {lineItems.edges.map((item) => (
                 <Container>
-               <InputGroup size="lg">
+                <Row>
+                <Col>
                 <Link to={`/product/${item.node.attributes[0].key}`}>
-                <Image width='200px' src={item.node.attributes[0].value} thumbnail />
+                  <Image width='200px' src={item.node.attributes[0].value} thumbnail />
                 </Link>
-                <h3>{item.node.attributes[0].key} | {item.node.cost.amountPerQuantity.amount}</h3>
-                <p>{item.node.merchandise.title}</p> 
-                <Button 
-                value="-"
-                variant="outline-secondary" 
-                id="button-addon2"
-                aria-label="Increment value"
-                onClick={(event) => cartLinesUpdate(event,item.node.id,item.node.quantity,item.node.attributes[0].key,item.node.attributes[0].value)}
-                >-</Button>
-                <Form.Control disabled placeholder={item.node.quantity}
-                              aria-label="Cart Addon"
-                              aria-describedby="cart-addon"
-                              />
-                <Button
-                value="+"
-                variant="outline-secondary" 
-                id="button-addon2"
-                aria-label="Increment value"
-                onClick={(event) => cartLinesUpdate(event,item.node.id,item.node.quantity,item.node.attributes[0].key,item.node.attributes[0].value)}
-                >+</Button>
-              </InputGroup>   
+                </Col>
+                <Col>
+                <h3>{moneyFormat.replace('{{amount}}', item.node.cost.amountPerQuantity.amount+'0')}</h3>
+                <small class="text-muted">{item.node.merchandise.title}</small>
+                <InputGroup size="lg">
+                  <Button 
+                  value="-"
+                  variant="outline-secondary" 
+                  id="button-addon2"
+                  aria-label="Increment value"
+                  onClick={(event) => cartLinesUpdate(event,item.node.id,item.node.quantity,item.node.attributes[0].key,item.node.attributes[0].value)}
+                  >-</Button>
+                  <Form.Control disabled placeholder={item.node.quantity}
+                                aria-label="Cart Addon"
+                                aria-describedby="cart-addon"
+                                />
+                  <Button
+                  value="+"
+                  variant="outline-secondary" 
+                  id="button-addon2"
+                  aria-label="Increment value"
+                  onClick={(event) => cartLinesUpdate(event,item.node.id,item.node.quantity,item.node.attributes[0].key,item.node.attributes[0].value)}
+                  >+</Button>
+              </InputGroup>
+              </Col>
+              </Row>
+              <hr />
               </Container>
              ))}
              <Container>
-             {userError}
-             {totalAmount}       
-            <Link to={checkoutUrl}><Button>Checkout</Button></Link>
+            <Row>
+            {userError}
+             <Col>
+             <h3>{moneyFormat.replace('{{amount}}', totalAmount+'0')}</h3>
+             </Col>
+             <Col>   
+             <Link to={checkoutUrl}><Button>Checkout</Button></Link>
+             </Col>
+             </Row>
             </Container>
             </CartContext.Provider>
             <Footer />

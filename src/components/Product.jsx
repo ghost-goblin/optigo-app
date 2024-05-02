@@ -33,6 +33,7 @@ const Product = () => {
   const { data, error, isLoading } = useQueryQuery(handle);
   console.log(data,error,isLoading);
   const cart = useSelector((state) => state.cart.cartid);
+  const moneyFormat = useSelector((state) => state.shop.money);
   const [cartId, setcartId] = useState(cart);
   const dispatch = useDispatch();
 
@@ -283,7 +284,7 @@ const Product = () => {
           <Col>
 
           <h1>{data.data.product.title}</h1>
-          <h3>{price}</h3>
+          <h3>{moneyFormat.replace('{{amount}}', price+'0')}</h3>
 
           {availableForSale ? (
             <Form.Group className="mb-3">
@@ -302,7 +303,7 @@ const Product = () => {
             </form>
             </Form.Group>
           ) : (
-            <div>Oh No! Not Available For Sale!</div>
+            <div>😢 Oh No! Not Available For Sale!</div>
           )}
 
           {userError ? (
