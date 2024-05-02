@@ -45,8 +45,11 @@ export const infoApi = createApi({
                 query: `{
                   shop {
                     name
-                    description
                     moneyFormat
+                    brand {
+                      shortDescription
+                      slogan
+                    }
                   }
                 }
                 `

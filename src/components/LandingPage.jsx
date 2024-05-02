@@ -15,6 +15,8 @@ import Rolling from "../assets/Rolling.png";
 const LandingPage = () => {
   const { data, error, isLoading } = useQueryQuery();
   const shopname = useSelector((state) => state.shop.name);
+  const shopdescription = useSelector((state) => state.shop.description);
+  const shopslogan = useSelector((state) => state.shop.slogan);
   console.log(data, error, isLoading)
 
 
@@ -25,8 +27,8 @@ const LandingPage = () => {
         <Row>
           <Col>
             <div style={{textAlign:'left'}}>
-            <h1>Optics on the Go</h1>
-            <p>{shopname} gives you access to all kinds of professional optical services from the comfort of your own home.
+            <h1>{shopslogan}</h1>
+            <p>{shopdescription}
             <br />Give it a go, it’s kind of fun.</p>
             </div>
             </Col>

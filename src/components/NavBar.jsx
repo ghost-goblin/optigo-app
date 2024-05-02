@@ -9,7 +9,7 @@ import { useEffect, createContext, useState } from "react";
 import axios from 'axios';
 import { useQueryQuery  } from '../services/api/info.js';
 import { useSelector, useDispatch } from 'react-redux';
-import { addshopname, addmoneyformat } from '../features/shop/infoSlice.js';
+import { addshopname, addmoneyformat, adddescription, addslogan } from '../features/shop/infoSlice.js';
 import { addcarttotalitem } from '../features/cart/cartSlice.js';
 import Badge from 'react-bootstrap/Badge';
 
@@ -67,6 +67,8 @@ const Navigator = () => {
     if (data) {
       dispatch(addshopname(data.data.shop.name));
       dispatch(addmoneyformat(data.data.shop.moneyFormat));
+      dispatch(adddescription(data.data.shop.brand.shortDescription))
+      dispatch(addslogan(data.data.shop.brand.slogan))
     }   
   }, [data,dispatch]); 
 
