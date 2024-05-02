@@ -19,7 +19,7 @@ const LandingPage = () => {
 
   if (data) {
     return (
-        <div style={{height:'100vh'}}>
+        <div>
         <Container>
         <Row>
           <Col>
