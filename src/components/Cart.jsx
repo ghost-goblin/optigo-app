@@ -181,7 +181,7 @@ const Cart = () => {
                 <Row>
                 <Col>
                 <Link to={`/product/${item.node.attributes[0].key}`}>
-                  <Image width='200px' src={item.node.attributes[0].value} thumbnail />
+                  <Image width='200px' src={item.node.attributes[0].value} />
                 </Link>
                 </Col>
                 <Col>

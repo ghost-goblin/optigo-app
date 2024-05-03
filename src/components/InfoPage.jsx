@@ -11,7 +11,7 @@ import BoxSticker from "../assets/BoxSticker.png";
 
 
 
-const AboutPage = () => {
+const InfoPage = () => {
   const { data, error, isLoading } = useQueryQuery();
   const shopname = useSelector((state) => state.shop.name);
   console.log(data, error, isLoading)
@@ -25,7 +25,7 @@ const AboutPage = () => {
         <h1>How does {shopname} make eyewear simple and fun?</h1>
         <Col sm style={{textAlign:'left'}}>
           <Image src={MagnifyingGlassSticker} fluid /><br />
-          <h2>1. Choose a frame style</h2><br />
+          <h2>1. Choose a style</h2><br />
           <p>Choose from a collection of multiple styles, shades and colours.</p>
         </Col>
         <Col sm style={{textAlign:'left'}}>
@@ -36,7 +36,7 @@ const AboutPage = () => {
         <Col sm style={{textAlign:'left'}}>
           <Image src={BoxSticker} fluid /><br />
           <h2>3. Get it delivered</h2><br />
-          <p>We deliver your new glasses to your home, so you don't have to move a muscle.</p>
+          <p>We deliver your new glasses to your home so you don't have to move a muscle.</p>
         </Col>
       </Row>
     </Container>
@@ -45,4 +45,4 @@ const AboutPage = () => {
  };
 };
 
-export default AboutPage;
+export default InfoPage;

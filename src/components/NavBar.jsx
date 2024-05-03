@@ -11,9 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addshopname, addmoneyformat, adddescription, addslogan } from '../features/shop/infoSlice.js';
 import { addcarttotalitem } from '../features/cart/cartSlice.js';
 import Badge from 'react-bootstrap/Badge';
-import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 
 
 
@@ -88,10 +86,10 @@ const Navigator = () => {
         <ThreeDotsVertical />
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+        <Dropdown.Item><Link to="/products">Shop</Link></Dropdown.Item>
+        <Dropdown.Item>About</Dropdown.Item>
         <Dropdown.Divider />
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+        <Dropdown.Item>Contact Us</Dropdown.Item>
       </Dropdown.Menu>
       </Dropdown>  
         <Navbar.Toggle />

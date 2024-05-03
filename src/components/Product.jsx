@@ -17,6 +17,7 @@ import { addcartid } from '../features/cart/cartSlice'
 import { Link } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
+import { CartPlus } from 'react-bootstrap-icons';
 
 
 const Product = () => {
@@ -278,19 +279,27 @@ const Product = () => {
           {availableForSale ? (
             <Form.Group className="mb-3">
             <form method="post" onSubmit={handleSubmit}>         
-            {data.data.product.variants.edges[0].node.product.options.map((option,index) => (         
-                <Form.Label key={option.name}>{option.name}
+            {data.data.product.variants.edges[0].node.product.options.map((option,index) => (
+                <Row key={option.name}> 
+                <Form.Label>{option.name}
                 <Form.Select name={option.name} index={index} onChange={handleChange}>
                 {option.values.map((value,index) => (
                     <option key={value} index={index}>{value}</option>
                   ))}
                   </Form.Select>
                   </Form.Label>
+                  </Row>
               
                ))}
                {userError ? (<div>{userError}</div>) : (<div></div>)}
-              <Button type="submit">Add to Cart</Button>
-              <Link to="/cart"><Button>Review Order</Button></Link>
+               <Row>
+                <Col>
+                <Button type="submit"><CartPlus /> Add to Cart</Button>
+                </Col>
+                <Col>
+                <Button><Link to="/cart">Review Order</Link></Button>
+                </Col>
+              </Row>
             </form>
             </Form.Group>
             ) : (
