@@ -37,7 +37,7 @@ const Products = () => {
               )}
               <Card.Body>
                 <Card.Title>{item.node.title}</Card.Title>
-                <Card.Text>{moneyFormat.replace('{{amount}}', item.node.variants.nodes[0].price.amount+'0')}</Card.Text>
+                <Card.Text><small className="text-muted">From </small>{moneyFormat.replace('{{amount}}', item.node.variants.nodes[0].price.amount+'0')}</Card.Text>
               </Card.Body>
             </Card>
           </Col>

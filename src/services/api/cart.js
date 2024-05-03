@@ -61,6 +61,13 @@ export const cartApi = createApi({
                             ... on ProductVariant {
                               id
                               title
+                              product {
+                                title
+                                handle
+                                featuredImage {
+                                  src
+                                }
+                              }
                             }
                           }
                           attributes {

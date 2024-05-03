@@ -13,7 +13,8 @@ import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { Cart } from 'react-bootstrap-icons';
+import { Cart, Trash } from 'react-bootstrap-icons';
+import glasses from "../assets/glasses.svg";
 
 
 
@@ -30,7 +31,10 @@ const MyCart = () => {
   const [userError, setuserError] = useState(null);
   console.log(data,error,isLoading);
 
-  const getCart = (cartId) => {
+
+
+
+  const getCart = () => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -58,6 +62,13 @@ const MyCart = () => {
                           ... on ProductVariant {
                             id
                             title
+                            product {
+                              title
+                              handle
+                              featuredImage {
+                                src
+                              }
+                            }
                           }
                         }
                         attributes {
@@ -102,7 +113,8 @@ const MyCart = () => {
 
 
 
-  const cartLinesUpdate = (event, merchandiseId, itemQuantity, key, value) => {
+  const cartLinesUpdate = (event, merchandiseId, itemQuantity) => {
+    event.preventDefault();
     let quantity
     if (event.target.value === '+') {
       quantity = itemQuantity + 1
@@ -124,7 +136,6 @@ const MyCart = () => {
             lines: {
               id: "${merchandiseId}"
               quantity: ${quantity}
-              attributes: { key: "${key}", value: "${value}" }
             }
           ) {
             userErrors {
@@ -142,7 +153,51 @@ const MyCart = () => {
           if (response.data.data.cartLinesUpdate.userErrors[0]) {
             setuserError(response.data.data.cartLinesUpdate.userErrors[0].message)
           } else {
-            getCart(cartId)
+            getCart()
+            setuserError(null)
+            console.log(response)
+          }
+         
+        })
+        .catch(function (error) {
+          console.error(error);
+        });    
+    };
+  };
+
+
+  const cartLinesRemove = (event, merchandiseId) => {
+    event.preventDefault();
+    const options = {
+      method: 'POST',
+      url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Storefront-Access-Token': `${process.env.REACT_APP_SHOPIFY_ACCESS_TOKEN}`,
+      },
+      data: {
+        query: `
+        mutation {
+          cartLinesRemove(
+            cartId: "${cartId}"
+            lineIds: "${merchandiseId}"
+           ) {
+            userErrors {
+              field
+              message
+            }
+          }
+        }
+        `
+      }
+    };
+    if (cartId) {
+      axios.request(options)
+        .then(function (response) {
+          if (response.data.data.cartLinesRemove.userErrors[0]) {
+            setuserError(response.data.data.cartLinesRemove.userErrors[0].message)
+          } else {
+            getCart()
             setuserError(null)
             console.log(response)
           }
@@ -180,15 +235,20 @@ const MyCart = () => {
             <CartContext.Provider value={lineItems}>
             <Navigator />  
             {lineItems.edges.map((item) => (
-                <Container key={item.node.attributes[0].key}>
+                <Container key={item.node.merchandise.product.handle}>
                 <Row>
+                <small className="text-muted">{item.node.merchandise.product.title} {moneyFormat.replace('{{amount}}', item.node.cost.amountPerQuantity.amount+'0')}</small>
                 <Col>
-                <Link to={`/product/${item.node.attributes[0].key}`}>
-                  <Image width='200px' src={item.node.attributes[0].value} />
+                <Link to={`/product/${item.node.merchandise.product.handle}`}>   
+                {item.node.merchandise.product.featuredImage ? (
+                <Image width='200px' src={item.node.merchandise.product.featuredImage.src} />
+                ) : (
+                <Image width='200px' src={glasses} />
+                )}     
                 </Link>
                 </Col>
                 <Col>
-                <h3>{moneyFormat.replace('{{amount}}', item.node.cost.amountPerQuantity.amount+'0')}</h3>
+                <h3>{moneyFormat.replace('{{amount}}', item.node.cost.subtotalAmount.amount+'0')}</h3>
                 <small className="text-muted">{item.node.merchandise.title}</small>
                 <InputGroup size="lg">
                   <Button 
@@ -196,7 +256,7 @@ const MyCart = () => {
                   variant="outline-secondary" 
                   id="button-addon2"
                   aria-label="Increment value"
-                  onClick={(event) => cartLinesUpdate(event,item.node.id,item.node.quantity,item.node.attributes[0].key,item.node.attributes[0].value)}
+                  onClick={(event) => cartLinesUpdate(event, item.node.id, item.node.quantity)}
                   >-</Button>
                   <Form.Control disabled placeholder={item.node.quantity}
                                 aria-label="Cart Addon"
@@ -207,8 +267,12 @@ const MyCart = () => {
                   variant="outline-secondary" 
                   id="button-addon2"
                   aria-label="Increment value"
-                  onClick={(event) => cartLinesUpdate(event,item.node.id,item.node.quantity,item.node.attributes[0].key,item.node.attributes[0].value)}
+                  onClick={(event) => cartLinesUpdate(event, item.node.id, item.node.quantity)}
                   >+</Button>
+                  <Button 
+                  variant="light"
+                  onClick={(event) => cartLinesRemove(event, item.node.id)}>
+                    <Trash /></Button>
               </InputGroup>
               </Col>
               </Row>
@@ -220,8 +284,9 @@ const MyCart = () => {
             {userError}
              <Col>
              <h3>{moneyFormat.replace('{{amount}}', totalAmount+'0')}</h3>
+             <small className="text-muted">Tax included and shipping and discounts calculated at checkout.</small>
              </Col>
-             <Col>   
+             <Col>
              <Button variant="primary"><Link to={checkoutUrl}><Cart /> Checkout</Link></Button>
              </Col>
              </Row>

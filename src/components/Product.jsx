@@ -165,7 +165,7 @@ const Product = () => {
 
 
   const handleChange = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const selectOptions = () => {
       let selectedList = [];
       let option
@@ -276,6 +276,7 @@ const Product = () => {
           <Col>
           <h1>{data.data.product.title}</h1>
           <h3>{moneyFormat.replace('{{amount}}', price+'0')}</h3>
+          <small className="text-muted">Tax included.</small>
           {availableForSale ? (
             <Form.Group className="mb-3">
             <form method="post" onSubmit={handleSubmit}>         
