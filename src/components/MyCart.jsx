@@ -235,7 +235,7 @@ const MyCart = () => {
             <CartContext.Provider value={lineItems}>
             <Navigator />  
             {lineItems.edges.map((item) => (
-                <Container key={item.node.merchandise.product.handle}>
+                <Container key={item.node.id}>
                 <Row>
                 <small className="text-muted">{item.node.merchandise.product.title} {moneyFormat.replace('{{amount}}', item.node.cost.amountPerQuantity.amount+'0')}</small>
                 <Col>

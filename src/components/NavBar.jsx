@@ -86,10 +86,10 @@ const Navigator = () => {
         <ThreeDotsVertical />
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item><Link to="/products">Shop</Link></Dropdown.Item>
-        <Dropdown.Item>About</Dropdown.Item>
+        <Dropdown.Item as="button"><Link to="/products">Shop</Link></Dropdown.Item>
+        <Dropdown.Item as="button">About</Dropdown.Item>
         <Dropdown.Divider />
-        <Dropdown.Item>Contact Us</Dropdown.Item>
+        <Dropdown.Item as="button">Contact Us</Dropdown.Item>
       </Dropdown.Menu>
       </Dropdown>  
         <Navbar.Toggle />
