@@ -34,7 +34,7 @@ const MyCart = () => {
 
 
 
-  const getCart = () => {
+  const getCart = React.useCallback(() => {
     const options = {
       method: 'POST',
       url: `https://${process.env.REACT_APP_SHOPIFY_STORE_URL}/api/2024-04/graphql.json`,
@@ -109,7 +109,7 @@ const MyCart = () => {
       .catch(function (error) {
         console.error(error);
       });
-  };
+  }, [cartId]);
 
 
 
@@ -212,9 +212,9 @@ const MyCart = () => {
 
   useEffect(() => {
     if (cartId) {
-      getCart(cartId)     
+      getCart();  
     }
-  }, [cartId]);
+  }, [getCart, cartId]);
 
   
   
