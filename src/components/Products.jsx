@@ -16,7 +16,7 @@ const Products = () => {
   
   if (data) {
     return (
-      <div>
+      <div style={{paddingTop:'1rem'}}>
       <Container>
       <Row>
       <Col style={{textAlign:'left'}}><h3>Try the new collections</h3></Col>

@@ -10,6 +10,7 @@ import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Eye } from 'react-bootstrap-icons';
 import Rolling from "../assets/Rolling.png";
+import LaptopSticker from "../assets/LaptopSticker.png";
 
 
 const LandingPage = () => {
@@ -22,33 +23,39 @@ const LandingPage = () => {
 
   if (data) {
     return (
-        <div>
+        <div style={{paddingTop:'2rem'}}>
         <Container>
-        <Row>
-          <Col>
+        <Row md>
+          <Col md>
             <div style={{textAlign:'left'}}>
             <h1>{shopslogan}</h1>
-            <p>{shopdescription}
-            <br />Give it a go, it’s kind of fun.</p>
-            </div>
+            <p>{shopdescription}</p>
+            <Image width='100px' src={LaptopSticker} />
+            <p>Give it a go, it’s kind of fun.</p>
+            <Row>
+            <Col sm>
+            <Button variant="dark"><Link to="/products"><Eye /> Shop Frames</Link></Button>
             </Col>
-          <Col><Image src={Rolling} fluid /></Col>
-        </Row>
-        <Row xs={2} md={4} lg={6}>
-          <Col><Link to="/products"><Button variant="dark"><Eye /> Shop Frames</Button></Link></Col>
-          <Col>
+            <Col sm>
             <Dropdown>
               <Dropdown.Toggle variant="light" id="dropdown-basic">
               👓💫 About Us
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Our Services</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Contact</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">FAQ</Dropdown.Item>
+                <Dropdown.Item as="button">Our Services</Dropdown.Item>
+                <Dropdown.Item as="button">Contact</Dropdown.Item>
+                <Dropdown.Item as="button">FAQ</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-        </Col>
-      </Row>
+            </Col>
+            </Row>
+            </div>
+          </Col>
+          <Col md>
+          <Image src={Rolling} fluid />
+          </Col>
+        </Row>
+  
       </Container>
       </div>
 

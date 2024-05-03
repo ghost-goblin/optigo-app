@@ -19,21 +19,21 @@ const InfoPage = () => {
 
   if (data) {
     return (
-      <div>
+      <div style={{paddingTop:'2rem'}}>
       <Container>
-      <Row >
-        <h1>How does {shopname} make eyewear simple and fun?</h1>
-        <Col sm style={{textAlign:'left'}}>
+      <h1>How does {shopname} make eyewear simple and fun?</h1>
+      <Row style={{paddingTop:'2rem', textAlign:'left'}}>
+        <Col sm>
           <Image src={MagnifyingGlassSticker} fluid /><br />
           <h2>1. Choose a style</h2><br />
           <p>Choose from a collection of multiple styles, shades and colours.</p>
         </Col>
-        <Col sm style={{textAlign:'left'}}>
+        <Col sm>
           <Image src={BalanceSticker} fluid /><br />
           <h2>2. Customise your lens prescription</h2><br />
           <p>Add your prescription lens variation and create the pair of glasses that tells your story.</p>
         </Col>
-        <Col sm style={{textAlign:'left'}}>
+        <Col sm>
           <Image src={BoxSticker} fluid /><br />
           <h2>3. Get it delivered</h2><br />
           <p>We deliver your new glasses to your home so you don't have to move a muscle.</p>
