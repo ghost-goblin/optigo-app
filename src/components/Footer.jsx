@@ -39,6 +39,7 @@ const Footer = () => {
             <Col><small className="text-muted">&#169;&nbsp;{shopname}&nbsp;Mobile&nbsp;Opticians&nbsp;Inc. All rights reserved.</small></Col>
             <Col><small className="text-muted">Terms of Service</small></Col>
             <Col><small className="text-muted">Privacy Policy</small></Col>
+            <Col><small className="text-muted">Illustrations by <Link to='https://www.instagram.com/pablostanley/' target='_blank' rel='noopener noreferrer'>Pablo Stanley</Link></small></Col>
         </Row>
         </Container>
         </div>

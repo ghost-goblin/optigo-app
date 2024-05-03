@@ -15,6 +15,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Cart, Trash } from 'react-bootstrap-icons';
 import glasses from "../assets/glasses.svg";
+import MonsterSticker from "../assets/MonsterSticker.png";
+import Spinner from 'react-bootstrap/Spinner';
 
 
 
@@ -30,7 +32,7 @@ const MyCart = () => {
   const { data, error, isLoading } = useQueryQuery(cartId);
   const [userError, setuserError] = useState(null);
   console.log(data,error,isLoading);
-
+  const [loading, setLoading] = useState(true);
 
 
 
@@ -104,6 +106,7 @@ const MyCart = () => {
         setlineItems(response.data.data.cart.lines)
         setcheckoutUrl(response.data.data.cart.checkoutUrl) 
         settotalAmount(response.data.data.cart.cost.totalAmount.amount)
+        setLoading(false)
         console.log(response)
       })
       .catch(function (error) {
@@ -218,16 +221,33 @@ const MyCart = () => {
     }
   }, [getCart, cartId]);
 
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 5000)
+  }, []);
+
   
-  
+  if (loading) {
+    return (
+    <div>
+    <Navigator />
+    <Container>
+    <Spinner animation="border" role="status">
+    <span className="visually-hidden">Loading...</span>
+    </Spinner>
+    </Container>
+    <Footer />
+    </div>
+  )
+  } else {
   return (
-      <> 
-        
+      <div>     
         {lineItems == null ? (
             <div>
             <Navigator />
             <Container>
             <p>Wow! So empty!</p>
+            <Image width='200px' src={MonsterSticker} /><br />
             <Link to="/" >Click here to go back</Link>
             </Container>
             <Footer />
@@ -235,7 +255,10 @@ const MyCart = () => {
             ) : (
             <div>
             <CartContext.Provider value={lineItems}>
-            <Navigator />  
+            <Navigator />
+            <Container>
+            <Link to="/products" ><h3>Continue shopping</h3></Link>
+            </Container>
             {lineItems.edges.map((item) => (
                 <Container key={item.node.id}>
                 <Row>
@@ -298,8 +321,9 @@ const MyCart = () => {
             <Footer />
             </div>
           )}
-      </>
+      </div>
     );
+   };
   };
 
 export default MyCart;
