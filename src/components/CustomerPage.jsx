@@ -16,7 +16,7 @@ const CustomerPage = () => {
 
   return (
     <div style={{paddingTop:'2rem'}}>
-      <h1>Unlock your creativity</h1>
+      <h1>Keep your eyes smiling</h1>
       <br />
        <Container style={{textAlign:'left'}}>
       <Row>
@@ -44,7 +44,7 @@ const CustomerPage = () => {
         <Row>
           <Col sm={4}><Image src={AtomSticker} fluid /></Col>
           <Col sm={8}>
-          <h3>Custom made lenses with love</h3>
+          <h3>Custom made lenses</h3>
           <p>We cut and make our lenses by hand. Each pair of glasses is made with love!</p>
           </Col>
           </Row>

@@ -29,7 +29,7 @@ const LandingPage = () => {
             <div style={{textAlign:'left'}}>
             <h1>{shopslogan}</h1>
             <p>{shopdescription}</p>
-            <Image width='100px' src={LaptopSticker} />
+            <Image width='150px' src={LaptopSticker} />
             <p>Give it a go, it’s kind of fun.</p>
             <Row>
             <Col>
