@@ -15,7 +15,6 @@ import LaptopSticker from "../assets/LaptopSticker.png";
 
 const LandingPage = () => {
   const { data, error, isLoading } = useQueryQuery();
-  const shopname = useSelector((state) => state.shop.name);
   const shopdescription = useSelector((state) => state.shop.description);
   const shopslogan = useSelector((state) => state.shop.slogan);
   console.log(data, error, isLoading)
@@ -33,13 +32,13 @@ const LandingPage = () => {
             <Image width='100px' src={LaptopSticker} />
             <p>Give it a go, it’s kind of fun.</p>
             <Row>
-            <Col sm>
-            <Button variant="dark"><Link to="/products"><Eye /> Shop Frames</Link></Button>
+            <Col>
+            <Button variant="dark"><Link to="/products"><Eye />&nbsp;Shop&nbsp;Frames</Link></Button>
             </Col>
-            <Col sm>
+            <Col>
             <Dropdown>
               <Dropdown.Toggle variant="light" id="dropdown-basic">
-              👓💫 About Us
+              👓💫&nbsp;About&nbsp;Us
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item as="button">Our Services</Dropdown.Item>

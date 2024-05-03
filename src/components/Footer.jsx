@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import PhoneSticker from "../assets/PhoneSticker.png";
-import { Instagram, Facebook, Twitter } from 'react-bootstrap-icons';
+import { Instagram, Facebook, Envelope } from 'react-bootstrap-icons';
 
 
 
@@ -23,20 +23,20 @@ const Footer = () => {
         <hr />
         <Container>
         <Row style={{padding:'1rem'}}>
-            <Col sm><b>{shopname}</b></Col>
+            <Col sm>{shopname}</Col>
             <Col sm><Link to='https://www.instagram.com/optigomobileoptics' target='_blank' rel='noopener noreferrer'><Instagram /></Link></Col>
             <Col sm><Link to='https://www.facebook.com/optigomobileoptics' target='_blank' rel='noopener noreferrer'><Facebook /></Link></Col>
-            <Col sm><Link to='https://www.twitter.com/optigomobileoptics' target='_blank' rel='noopener noreferrer'><Twitter /></Link></Col>
+            <Col sm><Envelope /></Col>
         </Row>
         <Row style={{padding:'1rem'}}>
             <Col>About</Col>
             <Col>Shop</Col>
             <Col>Contact</Col>
-            <Col><Link to='https://speckleeyewear.etsy.com' target='_blank' rel='noopener noreferrer'>👜 Our Etsy Store</Link></Col>
+            <Col><Link to='https://speckleeyewear.etsy.com' target='_blank' rel='noopener noreferrer'>👜&nbsp;Our&nbsp;Etsy&nbsp;Store</Link></Col>
             <Col><Image width='80px' src={PhoneSticker} fluid /></Col>
         </Row>
         <Row>
-            <Col><small className="text-muted">&#169; {shopname} Mobile Opticians Inc. All rights reserved.</small></Col>
+            <Col><small className="text-muted">&#169;&nbsp;{shopname}&nbsp;Mobile&nbsp;Opticians&nbsp;Inc. All rights reserved.</small></Col>
             <Col><small className="text-muted">Terms of Service</small></Col>
             <Col><small className="text-muted">Privacy Policy</small></Col>
         </Row>

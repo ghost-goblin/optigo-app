@@ -11,6 +11,7 @@ import glasses from "../assets/glasses.svg";
 import Navigator from './NavBar.jsx';
 import { useSelector } from 'react-redux';
 import { useQueryQuery  } from '../services/api/shop.js';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 
 
@@ -26,6 +27,10 @@ const Products = () => {
       <div className="App">
       <Navigator />
       <Container>
+      <Breadcrumb>
+        <Breadcrumb.Item linkAs="small"><Link to="/">Home</Link></Breadcrumb.Item>
+        <Breadcrumb.Item linkAs="small" active>Products</Breadcrumb.Item>
+      </Breadcrumb>
       <Row xs={1} md={3} className="g-4">
             {data.data.products.edges.map((item) => (
           <Col key={item.node.id}>

@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
 import { CartPlus, Pencil } from 'react-bootstrap-icons';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 
 const Product = () => {
@@ -269,6 +270,11 @@ const Product = () => {
         <Navigator />
         </CartContext.Provider>
         <Container>
+        <Breadcrumb>
+          <Breadcrumb.Item linkAs="small"><Link to="/">Home</Link></Breadcrumb.Item>
+          <Breadcrumb.Item linkAs="small"><Link to="/products">Products</Link></Breadcrumb.Item>
+          <Breadcrumb.Item linkAs="small" active>{data.data.product.title}</Breadcrumb.Item>
+        </Breadcrumb>
         <Row>
           <Col>
           <Image src={featuredImage} fluid />

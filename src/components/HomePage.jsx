@@ -4,6 +4,9 @@ import Navigator from './NavBar.jsx';
 import LandingPage from './LandingPage.jsx';
 import InfoPage from './InfoPage.jsx';
 import Footer from './Footer.jsx';
+import CarouselPage from './CarouselPage.jsx';
+import CustomerPage from './CustomerPage.jsx';
+import RandomPage from './RandomPage.jsx';
 
 
 const HomePage = () => {
@@ -14,6 +17,9 @@ const HomePage = () => {
     <LandingPage />
     <InfoPage />
     <Products />
+    <CustomerPage />
+    <CarouselPage />
+    <RandomPage />
     <Footer />
     </div>
   );
