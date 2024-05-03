@@ -292,7 +292,7 @@ const Product = () => {
                   </Row>
               
                ))}
-               {userError ? (<div>{userError}</div>) : (<div></div>)}
+               {userError ? (<div className="alert alert-danger">{userError}</div>) : (<div></div>)}
                <Row>
                 <Col>
                 <Button variant="primary" type="submit"><CartPlus /> Add to Cart</Button>

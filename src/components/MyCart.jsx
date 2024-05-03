@@ -152,6 +152,7 @@ const MyCart = () => {
         .then(function (response) {
           if (response.data.data.cartLinesUpdate.userErrors[0]) {
             setuserError(response.data.data.cartLinesUpdate.userErrors[0].message)
+            console.log(response)
           } else {
             getCart()
             setuserError(null)
@@ -196,6 +197,7 @@ const MyCart = () => {
         .then(function (response) {
           if (response.data.data.cartLinesRemove.userErrors[0]) {
             setuserError(response.data.data.cartLinesRemove.userErrors[0].message)
+            console.log(response)
           } else {
             getCart()
             setuserError(null)
@@ -281,10 +283,11 @@ const MyCart = () => {
              ))}
              <Container>
             <Row>
-            {userError}
+            {userError ? (<div className="alert alert-danger">{userError}</div>) : (<div></div>)}
              <Col>
              <h3>{moneyFormat.replace('{{amount}}', totalAmount+'0')}</h3>
-             <small className="text-muted">Tax included and shipping and discounts calculated at checkout.</small>
+             <small className="text-muted">Tax included.<br /></small>
+             <small className="text-muted">Shipping and discounts calculated at checkout.</small>
              </Col>
              <Col>
              <Button variant="primary"><Link to={checkoutUrl}><Cart /> Checkout</Link></Button>
