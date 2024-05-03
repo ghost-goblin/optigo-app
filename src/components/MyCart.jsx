@@ -223,13 +223,13 @@ const MyCart = () => {
 
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 5000)
+    setTimeout(() => setLoading(false), 2000)
   }, []);
 
   
   if (loading) {
     return (
-    <div>
+    <div style={{textAlign:'center'}}>
     <Navigator />
     <Container>
     <Spinner animation="border" role="status">
@@ -243,7 +243,7 @@ const MyCart = () => {
   return (
       <div>     
         {lineItems == null ? (
-            <div>
+            <div style={{textAlign:'center'}}>
             <Navigator />
             <Container>
             <p>Wow! So empty!</p>

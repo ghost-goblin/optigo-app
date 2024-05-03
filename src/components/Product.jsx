@@ -332,7 +332,7 @@ const Product = () => {
       ) : (
         <div>
         <Navigator />
-        <Container>
+        <Container style={{textAlign:'center'}}>
         <Spinner animation="border" role="status">
         <span className="visually-hidden">Loading...</span>
         </Spinner>

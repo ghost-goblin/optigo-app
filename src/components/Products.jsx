@@ -41,7 +41,7 @@ const Products = () => {
     )
   } 
   if (isLoading) {
-    return <div>
+    return <div style={{textAlign:'center'}}>
     <Container>
     <Spinner animation="border" role="status">
     <span className="visually-hidden">Loading...</span>
