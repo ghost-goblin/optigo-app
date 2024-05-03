@@ -20,7 +20,7 @@ const Products = () => {
       <Container>
       <Row>
       <Col style={{textAlign:'left'}}><h3>Try the new collections</h3></Col>
-      <Col style={{textAlign:'right'}}><small class="text-muted">Browse All</small></Col>
+      <Col style={{textAlign:'right'}}><small className="text-muted">Browse All</small></Col>
       </Row>
       <Row xs={1} md={3} className="g-4">
             {data.data.products.edges.map((item) => (

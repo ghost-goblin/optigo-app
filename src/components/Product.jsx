@@ -279,7 +279,7 @@ const Product = () => {
             <Form.Group className="mb-3">
             <form method="post" onSubmit={handleSubmit}>         
             {data.data.product.variants.edges[0].node.product.options.map((option,index) => (         
-                <Form.Label>{option.name}
+                <Form.Label key={option.name}>{option.name}
                 <Form.Select name={option.name} index={index} onChange={handleChange}>
                 {option.values.map((value,index) => (
                     <option key={value} index={index}>{value}</option>
@@ -288,7 +288,7 @@ const Product = () => {
                   </Form.Label>
               
                ))}
-               <p>{userError ? (<div>{userError}</div>) : (<div></div>)}</p>
+               {userError ? (<div>{userError}</div>) : (<div></div>)}
               <Button type="submit">Add to Cart</Button>
               <Link to="/cart"><Button>Review Order</Button></Link>
             </form>

@@ -177,7 +177,7 @@ const Cart = () => {
             <CartContext.Provider value={lineItems}>
             <Navigator />  
             {lineItems.edges.map((item) => (
-                <Container>
+                <Container key={item.node.attributes[0].key}>
                 <Row>
                 <Col>
                 <Link to={`/product/${item.node.attributes[0].key}`}>
@@ -186,7 +186,7 @@ const Cart = () => {
                 </Col>
                 <Col>
                 <h3>{moneyFormat.replace('{{amount}}', item.node.cost.amountPerQuantity.amount+'0')}</h3>
-                <small class="text-muted">{item.node.merchandise.title}</small>
+                <small className="text-muted">{item.node.merchandise.title}</small>
                 <InputGroup size="lg">
                   <Button 
                   value="-"

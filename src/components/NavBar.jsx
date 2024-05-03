@@ -1,8 +1,7 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Cart } from 'react-bootstrap-icons';
+import { Cart, ThreeDotsVertical } from 'react-bootstrap-icons';
 import logo from '../assets/logo.png';
 import { Link } from "react-router-dom";
 import { useEffect, createContext, useState } from "react";
@@ -12,6 +11,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addshopname, addmoneyformat, adddescription, addslogan } from '../features/shop/infoSlice.js';
 import { addcarttotalitem } from '../features/cart/cartSlice.js';
 import Badge from 'react-bootstrap/Badge';
+import Button from 'react-bootstrap/Button';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 
 
@@ -75,22 +77,30 @@ const Navigator = () => {
 
   return (
     <div style={{width:'100%'}}>
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar className="bg-body-tertiary">
       <Container>
-      <CartContext.Provider value={totalItems}>
-      <div>
-      <Link to="/"><Navbar.Brand><img src={logo} height="25px" alt="icon" />{shopname}</Navbar.Brand></Link>
-      <Badge pill bg="warning">{carttotalitems === 0 ? ('0') : (carttotalitems)}</Badge>
-      <Link to="/cart"><Navbar.Text><Cart /></Navbar.Text></Link>
-      </div>  
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link><Link to="/products"><Navbar.Text>Shop</Navbar.Text></Link></Nav.Link>
-            <Nav.Link><Link to="/"><Navbar.Text>About</Navbar.Text></Link></Nav.Link>
-            <Nav.Link><Link to="/"><Navbar.Text>Contact</Navbar.Text></Link></Nav.Link>
-          </Nav>
-        
+      <CartContext.Provider value={totalItems}> 
+        <Navbar.Brand>
+          <Link to="/"><Navbar.Brand><img src={logo} height="25px" alt="icon" />{shopname}</Navbar.Brand></Link>
+        </Navbar.Brand>
+        <Dropdown>
+      <Dropdown.Toggle variant="light" id="dropdown-basic">
+        <ThreeDotsVertical />
+      </Dropdown.Toggle>
+      <Dropdown.Menu>
+        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+        <Dropdown.Divider />
+        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+      </Dropdown.Menu>
+      </Dropdown>  
+        <Navbar.Toggle />
+        <Navbar.Collapse className="justify-content-end">
+          <Navbar.Brand>
+          <Link to="/cart">
+          {carttotalitems === 0 ? (<Cart />) : (<div><Cart style={{position:'inline-block'}} /><Badge style={{position:'absolute'}} pill bg="warning">{carttotalitems}</Badge></div>)}
+          </Link>
+          </Navbar.Brand>
         </Navbar.Collapse>
         </CartContext.Provider>
       </Container>
