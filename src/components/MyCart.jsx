@@ -13,12 +13,15 @@ import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { Cart } from 'react-bootstrap-icons';
 
 
-const Cart = () => {
-  const cart = useSelector((state) => state.cart.cartid)
+
+
+const MyCart = () => {
+  const cartstate = useSelector((state) => state.cart.cartid)
   const moneyFormat = useSelector((state) => state.shop.money)
-  const [cartId] = useState(cart);
+  const [cartId] = useState(cartstate);
   const [totalAmount, settotalAmount] = useState(0);
   const [lineItems, setlineItems] = useState(null);
   const [checkoutUrl, setcheckoutUrl] = useState(null);
@@ -219,7 +222,7 @@ const Cart = () => {
              <h3>{moneyFormat.replace('{{amount}}', totalAmount+'0')}</h3>
              </Col>
              <Col>   
-             <Link to={checkoutUrl}><Button>Checkout</Button></Link>
+             <Button variant="primary"><Link to={checkoutUrl}><Cart /> Checkout</Link></Button>
              </Col>
              </Row>
             </Container>
@@ -231,4 +234,4 @@ const Cart = () => {
     );
   };
 
-export default Cart;
+export default MyCart;

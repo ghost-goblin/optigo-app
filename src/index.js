@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import Products from "./components/Shop.jsx";
 import Product from './components/Product.jsx';
 import ErrorPage from "./components/ErrorPage.jsx";
-import Cart from './components/Cart.jsx';
+import MyCart from './components/MyCart.jsx';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { store } from './app/store'
 import { Provider } from 'react-redux'
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
   },
   {
     path: "cart",
-    element: <Cart />
+    element: <MyCart />
   },
 ]);
 

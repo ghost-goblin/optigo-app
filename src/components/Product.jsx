@@ -17,7 +17,7 @@ import { addcartid } from '../features/cart/cartSlice'
 import { Link } from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
-import { CartPlus } from 'react-bootstrap-icons';
+import { CartPlus, Pencil } from 'react-bootstrap-icons';
 
 
 const Product = () => {
@@ -294,10 +294,10 @@ const Product = () => {
                {userError ? (<div>{userError}</div>) : (<div></div>)}
                <Row>
                 <Col>
-                <Button type="submit"><CartPlus /> Add to Cart</Button>
+                <Button variant="primary" type="submit"><CartPlus /> Add to Cart</Button>
                 </Col>
                 <Col>
-                <Button><Link to="/cart">Review Order</Link></Button>
+                <Button variant="light"><Link to="/cart"><Pencil /> Review Order</Link></Button>
                 </Col>
               </Row>
             </form>
