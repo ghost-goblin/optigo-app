@@ -1,4 +1,4 @@
-# Optigo App
+# 👓 Optigo App
 
 > Optigo is a shopping cart web application built using **React** and consuming Shopify's Storefront API.
 
