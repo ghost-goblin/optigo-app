@@ -16,7 +16,7 @@ const CustomerPage = () => {
     <div style={{paddingTop:'2rem'}}>
     <Container>
       <h1>Why people are raving about {shopname}</h1>
-      <Row xs={1} md={3} className="g-4">
+      <Row xs={1} md={3} className="g-4" style={{paddingTop:'2rem'}}>
         <Col>
           <Card>
             <Card.Img variant="top" src={photo1} />

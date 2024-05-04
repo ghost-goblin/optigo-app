@@ -277,7 +277,7 @@ const Product = () => {
         </Breadcrumb>
         <Row>
           <Col sm>
-          <Image src={featuredImage} fluid />
+          <Image width='400px' src={featuredImage} fluid />
           </Col>
           <Col sm>
           <h1>{data.data.product.title}</h1>
@@ -301,10 +301,10 @@ const Product = () => {
                {userError ? (<div className="alert alert-danger">{userError}</div>) : (<div></div>)}
                <Row>
                 <Col>
-                <Button variant="primary" type="submit"><CartPlus /> Add to Cart</Button>
+                <Button variant="primary" type="submit"><CartPlus />&nbsp;Add&nbsp;to&nbsp;Cart</Button>
                 </Col>
                 <Col>
-                <Button variant="light"><Link to="/cart"><Pencil /> Review Order</Link></Button>
+                <Button variant="light"><Link to="/cart"><Pencil />&nbsp;Review&nbsp;Order</Link></Button>
                 </Col>
               </Row>
             </form>

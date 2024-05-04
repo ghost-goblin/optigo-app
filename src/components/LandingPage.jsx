@@ -56,7 +56,6 @@ const LandingPage = () => {
           <Image src={Rolling} fluid />
           </Col>
         </Row>
-  
       </Container>
       </div>
 

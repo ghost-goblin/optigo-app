@@ -9,9 +9,9 @@ import Button from 'react-bootstrap/Button';
 const RandomPage = () => {
 
   return (
-    <div>
+    <div style={{paddingTop:'2rem'}}>
         <Container>
-       <Image src={Studying} fluid /><br />
+       <Image src={Studying} fluid style={{padding:'2rem'}} /><br />
        <h1>Let's create your first pair of glasses!</h1>
        <Button variant="dark">Choose Random!</Button>
        </Container>

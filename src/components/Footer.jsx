@@ -23,10 +23,10 @@ const Footer = () => {
         <hr />
         <Container>
         <Row style={{padding:'1rem'}}>
-            <Col sm>{shopname}</Col>
-            <Col sm><Link to='https://www.instagram.com/optigomobileoptics' target='_blank' rel='noopener noreferrer'><Instagram /></Link></Col>
-            <Col sm><Link to='https://www.facebook.com/optigomobileoptics' target='_blank' rel='noopener noreferrer'><Facebook /></Link></Col>
-            <Col sm><Envelope /></Col>
+            <Col>{shopname}</Col>
+            <Col><Link to='https://www.instagram.com/optigomobileoptics' target='_blank' rel='noopener noreferrer'><Instagram /></Link></Col>
+            <Col><Link to='https://www.facebook.com/optigomobileoptics' target='_blank' rel='noopener noreferrer'><Facebook /></Link></Col>
+            <Col><Envelope /></Col>
         </Row>
         <Row style={{padding:'1rem'}}>
             <Col>About</Col>
@@ -39,8 +39,8 @@ const Footer = () => {
             <Col><small className="text-muted">&#169;&nbsp;{shopname}&nbsp;Mobile&nbsp;Opticians&nbsp;Inc. All rights reserved.</small></Col>
             <Col><small className="text-muted">Terms of Service</small></Col>
             <Col><small className="text-muted">Privacy Policy</small></Col>
-            <Col><small className="text-muted">Illustrations by <Link to='https://www.instagram.com/pablostanley/' target='_blank' rel='noopener noreferrer'>Pablo Stanley</Link></small></Col>
         </Row>
+        <small className="text-muted">Illustrations by <Link to='https://www.instagram.com/pablostanley/' target='_blank' rel='noopener noreferrer'>Pablo Stanley</Link></small>
         </Container>
         </div>
     );

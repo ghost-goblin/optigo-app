@@ -19,7 +19,7 @@ const HowToPage = () => {
 
   if (data) {
     return (
-      <div style={{paddingTop:'2rem'}}>
+      <div>
       <Container>
       <h1>How does {shopname} make eyewear simple and fun?</h1>
       <Row style={{paddingTop:'2rem', textAlign:'left'}}>
