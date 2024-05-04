@@ -11,7 +11,7 @@ import BoxSticker from "../assets/BoxSticker.png";
 
 
 
-const InfoPage = () => {
+const HowToPage = () => {
   const { data, error, isLoading } = useQueryQuery();
   const shopname = useSelector((state) => state.shop.name);
   console.log(data, error, isLoading)
@@ -45,4 +45,4 @@ const InfoPage = () => {
  };
 };
 
-export default InfoPage;
+export default HowToPage;
