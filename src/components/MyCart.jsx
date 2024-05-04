@@ -303,6 +303,7 @@ const MyCart = () => {
               <Col>
               <Button 
               variant="light"
+              size="lg"
               onClick={(event) => cartLinesRemove(event, item.node.id)}>
                 <Trash />
               </Button>
