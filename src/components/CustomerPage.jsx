@@ -13,10 +13,10 @@ const CustomerPage = () => {
   const shopname = useSelector((state) => state.shop.name);
 
   return (
-    <div style={{paddingTop:'2rem', textAlign:'left'}}>
+    <div style={{paddingTop:'2rem'}}>
     <Container>
       <h1>Why people are raving about {shopname}</h1>
-      <Row xs={1} md={3} className="g-4" style={{paddingTop:'2rem'}}>
+      <Row xs={1} md={3} className="g-4" style={{paddingTop:'2rem', textAlign:'left'}}>
         <Col>
           <Card>
             <Card.Img variant="top" src={photo1} />
