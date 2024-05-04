@@ -277,7 +277,7 @@ const MyCart = () => {
                 <small className="text-muted">{item.node.merchandise.title}</small>
                 <Row>
                 <Col>
-                <InputGroup size="lg" style={{width:'150px'}}>
+                <InputGroup size="lg" style={{width:'200px'}}>
                   <Button 
                   value="-"
                   variant="outline-secondary" 
@@ -288,6 +288,8 @@ const MyCart = () => {
                   <Form.Control disabled placeholder={item.node.quantity}
                                 aria-label="Cart Addon"
                                 aria-describedby="cart-addon"
+                                type="number"
+                                style={{textAlign:'center'}}
                                 />
                   <Button
                   value="+"
