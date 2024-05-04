@@ -3,10 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 export const shopSlice = createSlice({
   name: 'shop',
   initialState: {
-    name: null,
-    money: null,
-    description: null,
-    slogan: null,
+    name: '',
+    money: '£{{amount}}',
+    description: '',
+    slogan: '',
   },
   reducers: {
     addshopname: (state, action) => {

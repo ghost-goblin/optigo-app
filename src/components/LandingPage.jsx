@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { useQueryQuery  } from '../services/api/info.js';
 import { useSelector } from 'react-redux';
+import ErrorPage from "./ErrorPage.jsx";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -11,6 +12,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { Eye } from 'react-bootstrap-icons';
 import Rolling from "../assets/Rolling.png";
 import LaptopSticker from "../assets/LaptopSticker.png";
+import Spinner from 'react-bootstrap/Spinner';
 
 
 const LandingPage = () => {
@@ -22,7 +24,7 @@ const LandingPage = () => {
 
   if (data) {
     return (
-        <div style={{paddingTop:'2rem'}}>
+        <div style={{paddingTop:'2rem', minHeight: '100vh'}}>
         <Container>
         <Row md>
           <Col md>
@@ -60,6 +62,22 @@ const LandingPage = () => {
 
     );
  };
+ if (isLoading) {
+  return (
+    <div>
+      <Container style={{minHeight: '100vh'}}>
+      <Spinner animation="border" role="status">
+      <span className="visually-hidden">Loading...</span>
+      </Spinner>
+      </Container>
+    </div>
+  )
+ }
+ if (error) {
+  return <div>
+    <ErrorPage />
+    </div>
+  }
 };
 
 export default LandingPage;
