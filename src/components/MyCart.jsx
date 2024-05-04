@@ -263,7 +263,7 @@ const MyCart = () => {
                 <Container key={item.node.id}>
                 <Row>
                 <small className="text-muted">{item.node.merchandise.product.title} {moneyFormat.replace('{{amount}}', item.node.cost.amountPerQuantity.amount+'0')}</small>
-                <Col>
+                <Col md>
                 <Link to={`/product/${item.node.merchandise.product.handle}`}>   
                 {item.node.merchandise.product.featuredImage ? (
                 <Image width='200px' src={item.node.merchandise.product.featuredImage.src} />
@@ -272,10 +272,12 @@ const MyCart = () => {
                 )}     
                 </Link>
                 </Col>
-                <Col>
+                <Col md>
                 <h3>{moneyFormat.replace('{{amount}}', item.node.cost.subtotalAmount.amount+'0')}</h3>
                 <small className="text-muted">{item.node.merchandise.title}</small>
-                <InputGroup size="lg">
+                <Row>
+                <Col>
+                <InputGroup size="lg" style={{width:'150px'}}>
                   <Button 
                   value="-"
                   variant="outline-secondary" 
@@ -294,11 +296,16 @@ const MyCart = () => {
                   aria-label="Increment value"
                   onClick={(event) => cartLinesUpdate(event, item.node.id, item.node.quantity)}
                   >+</Button>
-                  <Button 
-                  variant="light"
-                  onClick={(event) => cartLinesRemove(event, item.node.id)}>
-                    <Trash /></Button>
               </InputGroup>
+              </Col>
+              <Col>
+              <Button 
+              variant="light"
+              onClick={(event) => cartLinesRemove(event, item.node.id)}>
+                <Trash />
+              </Button>
+              </Col>
+              </Row>
               </Col>
               </Row>
               <hr />

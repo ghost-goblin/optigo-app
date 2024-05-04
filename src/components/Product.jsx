@@ -276,10 +276,10 @@ const Product = () => {
           <Breadcrumb.Item linkAs="small" active>{data.data.product.title}</Breadcrumb.Item>
         </Breadcrumb>
         <Row>
-          <Col>
+          <Col sm>
           <Image src={featuredImage} fluid />
           </Col>
-          <Col>
+          <Col sm>
           <h1>{data.data.product.title}</h1>
           <h3>{moneyFormat.replace('{{amount}}', price+'0')}</h3>
           <small className="text-muted">Tax included.</small>
