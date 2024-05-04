@@ -248,7 +248,7 @@ const MyCart = () => {
             <Container>
             <p>Wow! So empty!</p>
             <Image width='200px' src={MonsterSticker} /><br />
-            <Link to="/" >Click here to go back</Link>
+            <Link to="/products" >Click here to go back</Link>
             </Container>
             <Footer />
             </div>
