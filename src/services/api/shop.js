@@ -43,7 +43,7 @@ export const shopApi = createApi({
             method: 'POST',
             data: {
                 query: `{
-                  products(first: 9) {
+                  products(first: 16) {
                     edges {
                       node {
                         id

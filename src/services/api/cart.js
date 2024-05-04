@@ -54,7 +54,7 @@ export const cartApi = createApi({
                         currencyCode
                       }
                     }
-                    lines(first: 10) {
+                    lines(first: 16) {
                       edges {
                         node {
                           merchandise {
