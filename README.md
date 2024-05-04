@@ -19,6 +19,6 @@
 - [ ] Lazy Loading
 - [ ] Session Storage
 - [ ] Contact Form
-- [ ] Testing (TDD)
+- [ ] UI Testing
 - [ ] Continuous Integration (CI)
 - [ ] Continuous Deployment (CD)
