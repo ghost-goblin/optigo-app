@@ -1,0 +1,17 @@
+name: jest CI
+run-name: ${{ github.actor }} is testing the frontend
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+     branches: [ "main" ]
+jobs:
+   run-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - run: npm install
+      - run: npm test
