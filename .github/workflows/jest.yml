@@ -3,6 +3,8 @@ run-name: ${{ github.actor }} is testing the frontend
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+     branches: [ "main" ]
 jobs:
    run-unit-tests:
     runs-on: ubuntu-latest
