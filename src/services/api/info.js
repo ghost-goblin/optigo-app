@@ -61,4 +61,4 @@ export const infoApi = createApi({
 });
 
 
-export const { useQueryQuery} = infoApi
+export const { useQueryQuery } = infoApi
